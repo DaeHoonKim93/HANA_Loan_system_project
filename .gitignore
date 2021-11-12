@@ -1,0 +1,6 @@
+fc_community/board/__pycache__
+fc_community/board/migrations/__pycache__
+fc_community/fc_community/__pycache__
+fc_community/fcuser/__pycache__
+env
+fcdjango_venv
