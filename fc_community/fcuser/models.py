@@ -4,11 +4,10 @@ from django.db import models
 
 
 class Fcuser(models.Model):
-    username = models.CharField(max_length=32,
-                                verbose_name='사용자명')  # 명명으로 사용자명으로 보이게된다.
+    emp_name = models.CharField(max_length=32,
+                                verbose_name='직원 이름', null = 'True') 
 
-    useremail = models.EmailField(max_length=128,
-                                  verbose_name='사용자 이메일')
+    emp_id = models.IntegerField(verbose_name='직원 번호' , null = 'True')
     password = models.CharField(max_length=64,
                                 verbose_name='비밀번호')
 
@@ -16,9 +15,9 @@ class Fcuser(models.Model):
                                            verbose_name='등록시간')  # dttm -> datetime의 약자
 
     def __str__(self):
-        return self.username
+        return self.emp_name
 
     class Meta:
-        db_table = 'fastcampus_fcuser'
+        db_table = 'emp_list'
         verbose_name = '직원명단'
         verbose_name_plural = '직원명단'
