@@ -6,16 +6,13 @@ from .forms import RegisterForm, LoginForm
 from django.views.generic.edit import FormView
 # from django.contrib.auth import authenticate, login
 
-
-
-
-
 # 대훈코딩
+
 
 class RegisterView(FormView):
     template_name = 'register.html'
     form_class = RegisterForm
-    success_url = '/'
+    success_url = '/fcuser/login'
 
     def form_valid(self, form):
         fcuser = Fcuser(
@@ -39,38 +36,35 @@ class LoginView(FormView):
 
         return super().form_valid(form)
 
+
 def index(request):
-    return render(request, 'home.html', {'emp_name': request.session.get('user')})
+    return render(request, 'home.html',
+                  {'emp_name': request.session.get('user')})
 
 
 def logout(request):
     if 'user' in request.session:
-        del(request.session['user'])
+        del (request.session['user'])
 
     return redirect('/')
 
 
-
-
 # 윤주코딩
-
 
 # def home(request):
 #     user_pk = request.session.get('user')
 
 #     if user_pk:
 #         fcuser = Fcuser.objects.get(pk=user_pk)
-#         return HttpResponse(fcuser.emp_username) 
-    
-#     return render(request, 'home.html')
+#         return HttpResponse(fcuser.emp_username)
 
+#     return render(request, 'home.html')
 
 # def logout(request):
 #     if request.session.get("user"):
 #         del(request.session['user'])
 
 #     return redirect('/')
-
 
 # def login(request):
 #     if request.method == "POST":
@@ -81,7 +75,6 @@ def logout(request):
 #     else:
 #         form = LoginForm()
 #     return render(request, 'login.html', {'form': form})
-
 
 # def sign_up(request):
 #     if request.method == 'GET':

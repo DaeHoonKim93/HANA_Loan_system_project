@@ -5,7 +5,9 @@ from .models import Worksheet
 
 
 class WorksheetAdmin(admin.ModelAdmin):
-    list_display = ('customer_name', 'loan_amount')
+    list_display = ('customer_id', 'customer_name', 'loan_product',
+                    'loan_amount', 'description', 'phone_number',
+                    'register_date')
 
 
 admin.site.register(Worksheet, WorksheetAdmin)

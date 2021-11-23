@@ -4,6 +4,7 @@ from django.db import models
 
 
 class Worksheet(models.Model):
+
     customer_id = models.IntegerField(verbose_name='고객번호', default=12345678)
 
     customer_name = models.CharField(
@@ -17,8 +18,13 @@ class Worksheet(models.Model):
     register_date = models.DateTimeField(
         auto_now_add=True, verbose_name='등록날짜')
 
+
+    # emp_name = models.ForeignKey(
+    #     'fcuser.Fcuser', on_delete=models.CASCADE, verbose_name='작성자', null = 'True')
+
+
     def __str__(self):
-        return self.name
+        return self.customer_name
 
     class Meta:
         db_table = 'WorkSheet'
