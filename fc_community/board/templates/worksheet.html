@@ -71,10 +71,7 @@
 						</li>
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="/assets/img/user.png" class="img-circle" alt="Avatar"> 
-								<span>{% for work in Worksheet_list %}{% if forloop.first %}
-									{{work.emp_name}}
-								{% endif %}{% endfor %}
-							</span>
+								<span>{{request.session.emp_name}} </span>
 								<i class="icon-submenu lnr lnr-chevron-down"></i></a>
 							<ul class="dropdown-menu">
 								<li><a href="#"><i class="lnr lnr-user"></i> <span>{{Worksheet_list.emp_name}}</span></a></li>
@@ -100,7 +97,7 @@
                         <li><a href="{% url 'home' %}"class=""><i class="lnr lnr-home"></i> <span> 메인화면 </span></a></li>
 						<li><a href="{% url 'worksheetcreate'%}" class=""><i class="lnr lnr-code"></i> <span>신규 대출 등록</span></a></li>
                         <li><a href="{% url 'worksheet'%}" class=""><i class="lnr lnr-dice"></i> <span>나의 신규 리스트</span></a></li>
-						<li><a href="typography.html" class=""><i class="lnr lnr-text-format"></i> <span>지점 전체 신규 리스트</span></a></li>
+						<li><a href="{% url 'totalworksheet'%}" class=""><i class="lnr lnr-text-format"></i> <span>지점 전체 신규 리스트</span></a></li>
 						<li><a href="charts.html" class=""><i class="lnr lnr-chart-bars"></i> <span>실적현황</span></a></li>
 						<!-- <li><a href="panels.html" class=""><i class="lnr lnr-cog"></i> <span>Panels</span></a></li>
 						<li><a href="notifications.html" class=""><i class="lnr lnr-alarm"></i> <span>Notifications</span></a></li> -->
@@ -155,20 +152,22 @@
             </thead>
             <tbody class="text-dark">
                     {% for work in Worksheet_list %}
-                    <tr>
-                        <th scope="row">{{ work.id }}</th>
-                        <th>{{ work.emp_name }}</th>
-                        
-                        <th>{{ work.customer_id }} </th>
-                        <th> {{ work.customer_name }}</th>
-                        <th>{{ work.loan_start_date }}</th>
-                        <th> {{work.loan_product}}</th>             
-                        <th>{{ work.loan_amount  }} 원</th>
-                        <th> </th> 
-                        <th> </th> 
-                        <th> {{work.description}} </th>
-                        <th>{{ work.register_date }}</th>
-                    </tr>
+						{% if work.emp_name == request.session.emp_name %}
+						<tr>
+							<th scope="row">{{ forloop.counter }}</th>
+							<th>{{ work.emp_name }}</th>
+							
+							<th>{{ work.customer_id }} </th>
+							<th> {{ work.customer_name }}</th>
+							<th>{{ work.loan_start_date }}</th>
+							<th> {{work.loan_product}}</th>             
+							<th>{{ work.loan_amount  }} 원</th>
+							<th> </th> 
+							<th> </th> 
+							<th> {{work.description}} </th>
+							<th>{{ work.register_date }}</th>
+						</tr>
+						{% endif %}
                     {% endfor %}
             </tbody>
           </table>

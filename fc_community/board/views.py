@@ -39,6 +39,12 @@ class WorksheetList(ListView):
     context_object_name = 'Worksheet_list'
 
 
+class Total_worksheetList(ListView):
+    model = Worksheet
+    template_name = 'Total_worksheet.html'
+    context_object_name = 'Worksheet_list'
+
+
 class WorksheetCreate(FormView):
     template_name = 'register_work.html'
     form_class = RegisterForm

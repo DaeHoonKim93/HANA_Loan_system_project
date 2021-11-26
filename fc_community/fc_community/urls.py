@@ -17,13 +17,16 @@ from django.contrib import admin
 from django.urls import path
 from django.urls.conf import include
 from fcuser.views import index
-from board.views import WorksheetList, WorksheetCreate
+from board.views import WorksheetList, WorksheetCreate, Total_worksheetList
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('fcuser/', include('fcuser.urls')),
     path('', index, name='home'),
     path('worksheet/', WorksheetList.as_view(), name='worksheet'),
+    path('totalworksheet/',
+         Total_worksheetList.as_view(),
+         name='totalworksheet'),
     path('worksheet/create/',
          WorksheetCreate.as_view(),
          name='worksheetcreate')
