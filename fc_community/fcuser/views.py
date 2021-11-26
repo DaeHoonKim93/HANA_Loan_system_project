@@ -5,7 +5,7 @@ from .models import Fcuser
 from .forms import RegisterForm, LoginForm
 from django.views.generic.edit import FormView
 # from django.contrib.auth import authenticate, login
-
+from django.db.models import Q
 # 대훈코딩
 
 
@@ -32,14 +32,26 @@ class LoginView(FormView):
     success_url = '/'
 
     def form_valid(self, form):  # 유효성 검사가 끝나고 로그인이 정상적으로 되면 들어오는 함수 !
-        self.request.session['user'] = form.data.get('emp_id')
-
+        emp_id = form.data.get('emp_id')
+        self.request.session['user'] = emp_id
+        print("END")
         return super().form_valid(form)
 
 
 def index(request):
-    return render(request, 'home.html',
-                  {'emp_name': request.session.get('user')})
+    # print("INDEX session user : ", request.session.get('user'))
+    # print(Fcuser)
+    fcusers = Fcuser.objects.get(emp_id=request.session.get('user'))
+    user = Fcuser.objects.filter(Q(emp_id=request.session.get('user')))
+    emp_name = user.get().emp_name
+    request.session['emp_name'] = emp_name
+    print("HERE!!!")
+    return render(request, 'home.html', {'fcusers': emp_name})
+
+
+# def index(request):
+#     return render(request, 'home.html',
+#                   {'emp_name': request.session.get('user')})
 
 
 def logout(request):

@@ -1,5 +1,5 @@
 from django.db import models
-
+from fcuser.models import Fcuser
 # Create your models here.
 
 
@@ -17,11 +17,9 @@ class Worksheet(models.Model):
     phone_number = models.CharField(max_length = 13, verbose_name='핸드폰번호', null = True)
     register_date = models.DateTimeField(
         auto_now_add=True, verbose_name='등록날짜')
+    loan_start_date = models.DateField(verbose_name='실행 예정일', null='False')
 
-
-    # emp_name = models.ForeignKey(
-    #     'fcuser.Fcuser', on_delete=models.CASCADE, verbose_name='작성자', null = 'True')
-
+    emp_name = models.CharField(max_length= 32 ,verbose_name='직원 이름', null='True')
 
     def __str__(self):
         return self.customer_name
