@@ -1,8 +1,6 @@
 from django.db import models
 from fcuser.models import Fcuser
 # Create your models here.
-
-
 class Worksheet(models.Model):
 
     customer_id = models.IntegerField(verbose_name='고객번호', default=12345678)
@@ -11,6 +9,7 @@ class Worksheet(models.Model):
         max_length=256, verbose_name='고객명', null='False')
 
     loan_product = models.CharField(max_length= 30 ,verbose_name='대출상품', null='True')
+
     loan_amount = models.IntegerField(verbose_name='대출금액', null='True')
 
     description = models.TextField(verbose_name='메모')

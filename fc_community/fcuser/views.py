@@ -39,14 +39,21 @@ class LoginView(FormView):
 
 
 def index(request):
+    if request.session.get('user') == None:
+        return redirect('fcuser/login/')
     # print("INDEX session user : ", request.session.get('user'))
     # print(Fcuser)
-    fcusers = Fcuser.objects.get(emp_id=request.session.get('user'))
-    user = Fcuser.objects.filter(Q(emp_id=request.session.get('user')))
-    emp_name = user.get().emp_name
-    request.session['emp_name'] = emp_name
-    print("HERE!!!")
-    return render(request, 'home.html', {'fcusers': emp_name})
+
+    # if user is None:
+    #     return redirect('login/')
+
+    else:
+        fcusers = Fcuser.objects.get(emp_id=request.session.get('user'))
+        user = Fcuser.objects.filter(Q(emp_id=request.session.get('user')))
+        emp_name = user.get().emp_name  #로그인된 user
+        request.session['emp_name'] = emp_name
+        print("HERE!!!")
+        return render(request, 'home.html', {'fcusers': emp_name})
 
 
 # def index(request):
