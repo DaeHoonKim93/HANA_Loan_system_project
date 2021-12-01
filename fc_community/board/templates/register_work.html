@@ -139,19 +139,26 @@
         {% csrf_token %}
         {% for field in form %}
         <div class="form-group">
-          <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-          {% ifequal field.name 'description' %} 
-          <textarea class="form-control" name="{{ field.name }}" id="{{ field.id_for_label }}"></textarea>
-          {% else %}
-             <!-- 지훈코드 -->
-           {% ifequal field.name 'loan_start_date' %}
-             <input type="date" class="form-control" placeholder=" field.label",name= "{{ field.name }} /> 
-           {% endifequal %}
-           
-         <input type="{{ field.field.widget.input_type }}" class="form-control" id="{{ field.id_for_label }}"
-            placeholder="{{ field.label }}" name="{{ field.name }}" />
-          {% endifequal %}      </div>
-      {% if field.errors %}
+        	<label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        	{% if field.name == 'description' %} 
+        		<textarea class="form-control" name="{{ field.name }}" id="{{ field.id_for_label }}"></textarea>
+        	{% elif field.name == 'loan_start_date' %}
+        		<input type="date" class="form-control" placeholder="{{field.label}}" name= "{{ field.name }}" /> 
+			{% elif field.name == 'loan_product' %}
+				<select class="form-control" name = "{{ field.name }}">
+					<option>주택신보</option>
+					<option>전세안심</option>
+					<option>우량전세</option>
+					<option>신용대출</option>
+				</select>
+			{% else %}
+	        	<input type="{{ field.field.widget.input_type }}" class="form-control" id="{{ field.id_for_label }}"
+            	placeholder="{{ field.label }}" name="{{ field.name }}" />
+        	{% endif %}      
+		</div>
+      
+		
+	  {% if field.errors %}
       <span style="color: red">{{ field.errors }}</span>
       {% endif %}
       {% endfor %}
@@ -176,6 +183,5 @@
 </body>
 
 </html>
-
 
 

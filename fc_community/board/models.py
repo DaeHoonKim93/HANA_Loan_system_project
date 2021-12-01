@@ -73,6 +73,7 @@ class Worksheet(models.Model):
         verbose_name = '업무목록'
         verbose_name_plural = '업무목록'
 
+<<<<<<< HEAD
 
 class Process(models.Model):
     loan_product = models.CharField(max_length= 30 ,verbose_name='대출상품', null='True')
@@ -86,3 +87,7 @@ class Process(models.Model):
         db_table = 'Process'
         verbose_name = '진행척도관리'
         verbose_name_plural = '진행척도관리' 
+=======
+    
+class 
+>>>>>>> 65d5511aede8a6b143862a5730275e3a22339882

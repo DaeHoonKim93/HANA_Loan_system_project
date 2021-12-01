@@ -152,7 +152,7 @@
             </thead>
             <tbody class="text-dark">
                     {% for work in Worksheet_list %}
-						{% if work.emp_name == request.session.emp_name %} //로그인된 유저랑 같을때 
+						{% if work.emp_name == request.session.emp_name %} 
 						<tr>
 							<th scope="row">{{ forloop.counter }}</th>
 							<th>{{ work.emp_name }}</th>
@@ -161,8 +161,6 @@
 							<th>{{ work.loan_start_date }}</th>
 							<th> {{work.loan_product}}</th>             
 							<th> {{ work.loan_amount }} </th>
-							//if 문 조건일때 뜬다.. 버튼클릭시 활성화 버튼누럴ㅆ을때 DB상에서 상태가바껴 ! 바뀐상태를 다시
-							여기다가뿌려준다.. 디비를 활용해서 현재 진행척도를 업데이트하고 뿌려주기만.....
 							<th>  <h4> <span class="label label-success">진행척도</span> </h4> </th>
 							<th> Y </th>
 							<th> {{work.description}} </th>
