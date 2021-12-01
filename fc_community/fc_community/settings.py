@@ -78,7 +78,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'Hana_project',
         'USER': 'root',
-        'PASSWORD': 'handong0807!',
+        'PASSWORD': 'dbswn464622!',
         'HOST': '127.0.0.1',
         'PORT': '3306',
     }
