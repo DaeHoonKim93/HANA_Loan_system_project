@@ -18,11 +18,12 @@ class RegisterForm(forms.Form):
 
     loan_start_date = forms.DateField(
         error_messages={'required': '실행 예정일을 입력해주세요.'}, label='실행 예정일을 입력해주세요')
+    # loan_condition = forms.BooleanField(label='상환조건')
+
     description = forms.CharField(error_messages={'required': '메모를 입력해주세요.'},
                                   label='메모')
 
     def clean(self):
-        print("123")
         cleaned_data = super().clean()
         customer_id = cleaned_data.get('customer_id')
         customer_name = cleaned_data.get('customer_name')
@@ -31,6 +32,7 @@ class RegisterForm(forms.Form):
         description = cleaned_data.get('description')
         phone_number = cleaned_data.get('phone_number')
         loan_start_date = cleaned_data.get('loan_start_date')
+        # loan_condition = cleaned_data.get('loan_condition')
 
         if not (customer_id and customer_name and loan_product and loan_amount
                 and description and phone_number):

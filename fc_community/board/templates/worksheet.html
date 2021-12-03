@@ -151,18 +151,18 @@
                     </tr>
             </thead>
             <tbody class="text-dark">
-                    {% for work in Worksheet_list %}
+                    {% for work in datas %}
 						{% if work.emp_name == request.session.emp_name %} 
 						<tr>
-							<th scope="row">{{ forloop.counter }}</th>
+							<th>{{ work.id }}</th>
 							<th>{{ work.emp_name }}</th>
 							<th>{{ work.customer_id }} </th>
 							<th> {{ work.customer_name }}</th>
 							<th>{{ work.loan_start_date }}</th>
 							<th> {{work.loan_product}}</th>             
 							<th> {{ work.loan_amount }} </th>
-							<th>  <h4> <span class="label label-success">진행척도</span> </h4> </th>
-							<th> Y </th>
+							<th>  <h4> <span class="label label-success">{{work.process_step}}</span> </h4> </th>
+							<th> Y</th>
 							<th> {{work.description}} </th>
 							<th>{{ work.register_date }}</th>
 						</tr>

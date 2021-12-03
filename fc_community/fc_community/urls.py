@@ -23,7 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('fcuser/', include('fcuser.urls')),
     path('', index, name='home'),
-    path('worksheet/', WorksheetList.as_view(), name='worksheet'),
+    path('worksheet/', WorksheetList, name='worksheet'),
     path('totalworksheet/',
          Total_worksheetList.as_view(),
          name='totalworksheet'),

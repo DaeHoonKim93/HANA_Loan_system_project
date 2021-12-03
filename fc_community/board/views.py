@@ -1,42 +1,79 @@
 from django.shortcuts import render
 from django.views.generic import ListView
 from django.views.generic.edit import FormView
-from .models import Worksheet
+from .models import Worksheet, Process
 from fcuser.models import Fcuser
 from fcuser.views import index
 from .forms import RegisterForm
 
+from django.db import connection
+
 # Create your views here.
 
 
-def Worksheet_Create(request):
-    """
-    pybo 질문등록
-    """
-    if request.method == 'POST':
-        form = RegisterForm(request.POST)
-        if form.is_valid(form):
-            worksheet = Worksheet(
-                customer_id=form.data.get('customer_id'),
-                customer_name=form.data.get('customer_name'),
-                loan_product=form.data.get('loan_product'),
-                loan_amount=form.data.get('loan_amount'),
-                description=form.data.get('description'),
-                phone_number=form.data.get('phone_number'),
-                #   지훈 코딩
-                loan_start_date=form.data.get('loan_start_date'))
+def WorksheetList(request):
 
-            worksheet.save()
-    else:
-        form = RegisterForm()
-    context = {'worksheet': worksheet, 'form': form}
-    return render(request, 'worksheet.html', context)
+    cursor = connection.cursor()
+    strSql = "select A.* , B.process_step from WorkSheet as A Left OUTER join Process as B on a.loan_product = b.loan_product WHERE A.current_process_id = B.process_index"
+
+    result = cursor.execute(strSql)
+    works = cursor.fetchall()
+    connection.commit()
+    print("zzz", works[0])
+    datas = []
+    for data in works:
+        # print(data)
+        row = {
+            'id': data[0],
+            'customer_id': data[1],
+            'customer_name': data[2],
+            'loan_product': data[3],
+            'loan_amount': data[4],
+            'description': data[5],
+            'phone_number': data[6],
+            'register_date': data[7],
+            'loan_start_date': data[8],
+            'emp_name': data[9],
+            'loan_condition': data[10],
+            'process_step': data[12]
+        }
+        datas.append(row)
+
+    # strSql2 = "SELECT process_step FROM Process"
+    # result = cursor.execute(strSql2)
+    # proc = cursor.fetchall()
+    # connection.commit()
+    # connection.close()
+
+    # user = Worksheet.objects.filter(
+    #     Q(emp_id=request.session.get('user')))  # where절
+
+    Worksheet_list = Worksheet.objects.all()
+    # print(type(Worksheet_list))
+    var_id = 3
+    Process_data = Process.objects.filter(id=var_id)
+    for work in Worksheet_list:
+        # print('zz', type(work))
+        break
+
+    # a = Process_data[0]
+    # print(a.process_step)
+    # b = a.process_step
+    return render(request, 'Worksheet.html', {
+        'datas': datas,
+        'Worksheet_list': Worksheet_list
+    })
+
+    # print(Worksheet_list)
+    # emp_name = user.get().emp_name  #로그인된 user
+    # request.session['emp_name'] = emp_name
+    # print("HERE!!!")
 
 
-class WorksheetList(ListView):
-    model = Worksheet
-    template_name = 'Worksheet.html'
-    context_object_name = 'Worksheet_list'
+# class WorksheetList(ListView):
+#     model = Worksheet  # 데이터 ,, WorkSheet, Process
+#     template_name = 'Worksheet.html'
+#     context_object_name = 'Worksheet_list'
 
 
 class Total_worksheetList(ListView):
@@ -63,6 +100,6 @@ class WorksheetCreate(FormView):
             #   지훈 코딩
             loan_start_date=form.data.get('loan_start_date'),
             emp_name=self.request.session.get('emp_name'))
-
+        # loan_condition=form.data.get('loan_condition'))
         worksheet.save()
         return super().form_valid(form)

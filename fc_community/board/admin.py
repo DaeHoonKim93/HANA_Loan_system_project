@@ -1,6 +1,5 @@
-
 from django.contrib import admin
-from .models import Worksheet, Process
+from .models import Worksheet, Process, Process2
 
 # Register your models here.
 
@@ -19,3 +18,11 @@ class ProcessAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Process, ProcessAdmin)
+
+
+class Process2Admin(admin.ModelAdmin):
+    list_display = ('loan_product', 'process_step1', 'process_step2',
+                    'process_step3')
+
+
+admin.site.register(Process2, Process2Admin)

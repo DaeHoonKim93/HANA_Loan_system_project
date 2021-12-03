@@ -146,10 +146,10 @@
         		<input type="date" class="form-control" placeholder="{{field.label}}" name= "{{ field.name }}" /> 
 			{% elif field.name == 'loan_product' %}
 				<select class="form-control" name = "{{ field.name }}">
-					<option>주택신보</option>
-					<option>전세안심</option>
+					<option>주신보</option>
+					<!-- <option>전세안심</option> -->
 					<option>우량전세</option>
-					<option>신용대출</option>
+					<!-- <option>신용대출</option> -->
 				</select>
 			{% else %}
 	        	<input type="{{ field.field.widget.input_type }}" class="form-control" id="{{ field.id_for_label }}"
