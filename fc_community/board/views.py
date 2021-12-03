@@ -8,7 +8,24 @@ from .forms import RegisterForm
 
 from django.db import connection
 
-# Create your views here.
+# Create your views here
+
+
+def VirtualBankSystem(request):
+
+    Worksheet_list = Worksheet.objects.all()
+    # print(type(Worksheet_list))
+    # var_id = 3
+    # Process_data = Process.objects.filter(id=var_id)
+    # for work in Worksheet_list:
+    #     # print('zz', type(work))
+    #     break
+    # a = Process_data[0]
+    # print(a.process_step)
+    # b = a.process_step
+
+    return render(request, 'VirtualBankSystem.html',
+                  {'Worksheet_list': Worksheet_list})
 
 
 def WorksheetList(request):

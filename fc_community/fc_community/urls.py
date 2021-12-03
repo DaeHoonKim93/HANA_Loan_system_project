@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path
 from django.urls.conf import include
 from fcuser.views import index
-from board.views import WorksheetList, WorksheetCreate, Total_worksheetList
+from board.views import WorksheetList, WorksheetCreate, Total_worksheetList, VirtualBankSystem
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,5 +29,6 @@ urlpatterns = [
          name='totalworksheet'),
     path('worksheet/create/',
          WorksheetCreate.as_view(),
-         name='worksheetcreate')
+         name='worksheetcreate'),
+    path('virtualbanksystem/', VirtualBankSystem, name='virtualbanksystem')
 ]
