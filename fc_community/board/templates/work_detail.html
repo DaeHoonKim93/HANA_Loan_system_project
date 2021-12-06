@@ -3,6 +3,7 @@
 {% load assets % }
 {% load humanize %}
 
+
 <head>
 	<title>Tables | Klorofil - Free Bootstrap Dashboard Template</title>
 	<meta charset="utf-8">
@@ -126,51 +127,24 @@
 							<!-- BORDERED TABLE -->
 
 
-        
-<div class="row">
-    <div class="col-md-12">
-        <div class = "panel">
-            <div class = "panel-heading">
-                <h3 class="panel-title">2021년 11월</h3>
-            </div>
-        <div class="panel-body">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th> 
-                        <th scope="col">담당자</th>
-                        <th scope="col">고객번호</th>
-                        <th scope="col">고객명</th>
-                        <th scope="col">신규예정일</th>
-                        <th scope="col">대출상품</th>
-                        <th scope="col">대출금액</th>
-                        <th scope="col">진행척도</th>
-                        <th scope="col">상환조건여부</th>    
-                        <th scope="col">등록날짜</th>
-                    </tr>
-            </thead>
-            <tbody class="text-dark">
-                    {% for work in datas %}
-						{% if work.emp_name == request.session.emp_name %} 
-						<tr>
-							<th>{{ work.id }}</th>
-							<th><a href="/worksheet/detail/{{ work.id }}">{{ work.emp_name }}</th>
-							<th>{{ work.customer_id }} </th>
-							<th> {{ work.customer_name }}</th>
-							<th>{{ work.loan_start_date|date:"Y-m-d"}}</th>
-							<th> {{work.loan_product}}</th>             
-							<th> {{ work.loan_amount|intcomma}}원 </th>
-							<th>  <h4> <span class="label label-success">{{work.process_step}}</span> </h4> </th>
-							<th> Y</th>
-							<th>{{ work.register_date }}</th>
-						</tr>
-						{% endif %}
-                    {% endfor %}
-            </tbody>
-          </table>
-          </div>
-        </div>
-        
+<div class="row mt-5">
+  <div class="col-12">
+    <div class="card" style="width: 100%;">
+      <div class="card-body">
+        <h5 class="card-title">{{ Workdetail.customer_name }}</h5>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">고객번호: {{ Workdetail.customer_id }} </li>
+        <li class="list-group-item">실행예정일: {{ Workdetail.loan_start_date|date:"Y-m-d"}}</li>
+        <li class="list-group-item">대출상품 : {{ Workdetail.loan_product}} </li>
+		<li class="list-group-item">금액: {{ Workdetail.loan_amount|intcomma }} 원</li>
+        <li class="list-group-item">메모: {{ Workdetail.description|safe }}</li>
+      </ul>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <a href="/worksheet/">목록보기</a>
     </div>
   </div>
 

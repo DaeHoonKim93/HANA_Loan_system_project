@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from django.views.generic.edit import FormView
 from .models import Worksheet, Process
 from fcuser.models import Fcuser
@@ -120,3 +120,9 @@ class WorksheetCreate(FormView):
         # loan_condition=form.data.get('loan_condition'))
         worksheet.save()
         return super().form_valid(form)
+
+
+class Workdetail(DetailView):
+    template_name = 'work_detail.html'
+    queryset = Worksheet.objects.all()
+    context_object_name = 'Workdetail'

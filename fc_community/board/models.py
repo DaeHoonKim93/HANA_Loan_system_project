@@ -61,27 +61,3 @@ class Process(models.Model):
         db_table = 'Process'
         verbose_name = '진행척도관리'
         verbose_name_plural = '진행척도관리'
-
-
-class Process2(models.Model):
-    loan_product = models.CharField(max_length=30,
-                                    verbose_name='대출상품',
-                                    null='True')
-    # process_index = models.IntegerField(verbose_name='진행순번', null='True')
-    process_step1 = models.CharField(max_length=30,
-                                     verbose_name='1단계',
-                                     null='True')
-    process_step2 = models.CharField(max_length=30,
-                                     verbose_name='2단계',
-                                     null='True')
-    process_step3 = models.CharField(max_length=30,
-                                     verbose_name='3단계',
-                                     null='True')
-
-    def __str__(self):
-        return self.loan_product
-
-    class Meta:
-        db_table = 'Process2'
-        verbose_name = '진행척도관리2'
-        verbose_name_plural = '진행척도관리2'
