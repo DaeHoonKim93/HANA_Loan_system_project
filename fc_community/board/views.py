@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import FormView
 from .models import Worksheet, Process
@@ -23,6 +23,24 @@ def VirtualBankSystem(request):
     # a = Process_data[0]
     # print(a.process_step)
     # b = a.process_step
+    if request.method == 'POST':
+        lst_id = request.POST.getlist('id')
+
+        for i in lst_id:
+
+            next_process_level = Worksheet.objects.get(
+                id=int(i)).current_process_id + 1
+
+            Worksheet.objects.filter(id=int(i)).update(
+                current_process_id=next_process_level)
+
+        # cursor = connection.cursor()
+        # strSql = "UPDATE Worksheet set current_process_id = current_process_id + 1"
+        # result = cursor.execute(strSql)
+        # id_process = cursor.fetchall()
+        # connection.commit()
+
+        return redirect('/virtualbanksystem')
 
     return render(request, 'VirtualBankSystem.html',
                   {'Worksheet_list': Worksheet_list})

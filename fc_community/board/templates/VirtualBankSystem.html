@@ -137,6 +137,7 @@
             <table class="table table-bordered">
                 <thead>
                     <tr>
+						<th>check</th>
                         <th scope="col">#</th>
                         <th scope="col">담당자</th>
                         <th scope="col">고객번호</th>
@@ -147,9 +148,14 @@
 
                     </tr>
             </thead>
+<!-- template.html -->
+
             <tbody class="text-dark">
+				<form action="" method="post">
+					{% csrf_token %}
                     {% for work in Worksheet_list %}
 						<tr>
+							<th><input id="id" type="checkbox" name="id" value="{{ work.id }}"></th>
 							<th scope="row">{{ work.id }}</th>
 							<th>{{ work.emp_name }}</th>
 							
@@ -157,14 +163,16 @@
 							<th> {{ work.customer_name }}</th>
 							<th> {{work.loan_product}}</th>             
 							<th>{{ work.loan_amount  }} 원</th>
-							<th> <button type="submit" class="btn btn-primary"> 4313승인 </button> </th> 
-
+							<th>{{ work.current_process_id  }} 단계</th>
 
 						</tr>
                     {% endfor %}
             </tbody>
-          </table>
-          </div>
+		</table>
+		<button type="submit" class="btn btn-primary"> 승인 </button> 
+
+	</form>
+	</div>
         </div>
         
     </div>
