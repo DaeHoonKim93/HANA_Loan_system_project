@@ -150,23 +150,23 @@
                     </tr>
             </thead>
             <tbody class="text-dark">
-                    {% for work in datas %}
-						{% if work.emp_name == request.session.emp_name %} 
-						<tr>
-							<th>{{ work.id }}</th>
-							<th><a href="/worksheet/detail/{{ work.id }}">{{ work.emp_name }}</th>
-							<th>{{ work.customer_id }} </th>
-							<th> {{ work.customer_name }}</th>
-							<th>{{ work.loan_start_date|date:"Y-m-d"}}</th>
-							<th> {{work.loan_product}}</th>             
-							<th> {{ work.loan_amount|intcomma}}원 </th>
-							<th>  <h4> <span class="label label-success">{{work.process_step}}</span> </h4> </th>
-							<th> Y</th>
-							<th>{{ work.register_date }}</th>
-						</tr>
-						{% endif %}
-                    {% endfor %}
-            </tbody>
+				{% for work in datas %}
+					{% if work.emp_name == request.session.emp_name %} 
+					<tr>
+						<th>{{ work.id }}</th>
+						<th><a href="/worksheet/detail/{{ work.id }}">{{ work.emp_name }}</th>
+						<th>{{ work.customer_id }} </th>
+						<th> {{ work.customer_name }}</th>
+						<th>{{ work.loan_start_date}}</th>
+						<th> {{work.loan_product}}</th>             
+						<th> {{ work.loan_amount|intcomma}}원 </th>
+						<th>  <h4> <span class="label label-success">{{work.process_step}}</span> </h4> </th>
+						<th> Y</th>
+						<th>{{ work.register_date }}</th>
+					</tr>
+					{% endif %}
+				{% endfor %}
+			</tbody>
           </table>
           </div>
         </div>

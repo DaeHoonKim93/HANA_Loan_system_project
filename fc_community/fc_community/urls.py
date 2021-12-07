@@ -17,12 +17,13 @@ from django.contrib import admin
 from django.urls import path
 from django.urls.conf import include
 from fcuser.views import index
-from board.views import WorksheetList, WorksheetCreate, Total_worksheetList, VirtualBankSystem, Workdetail
+from board.views import charts, WorksheetList, WorksheetCreate, Total_worksheetList, VirtualBankSystem, Workdetail
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('fcuser/', include('fcuser.urls')),
     path('', index, name='home'),
+    path('charts/', charts, name='charts'),
     path('worksheet/', WorksheetList, name='worksheet'),
     path('totalworksheet/',
          Total_worksheetList.as_view(),

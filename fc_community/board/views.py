@@ -49,30 +49,31 @@ def VirtualBankSystem(request):
 def WorksheetList(request):
 
     cursor = connection.cursor()
-    strSql = "select A.* , B.process_step from WorkSheet as A Left OUTER join Process as B on a.loan_product = b.loan_product WHERE A.current_process_id = B.process_index"
-
+    # strSql = "select A.* , B.process_step from WorkSheet as A Left OUTER join Process as B on a.loan_product = b.loan_product WHERE A.current_process_id = B.process_index"
+    strSql = "select A.* , C.loan_process_name from WorkSheet as A Left OUTER join (select A.loan_product_name, B.loan_process_level, B.loan_process_name from loan_product2 as A inner join loan_process as B on a.id = b.loan_product_id) as C on a.loan_product = C.loan_product_name WHERE A.current_process_id = C.loan_process_level"
     result = cursor.execute(strSql)
     works = cursor.fetchall()
     connection.commit()
-    print("zzz", works[0])
     datas = []
     for data in works:
-        # print(data)
+        print(data[1])
         row = {
             'id': data[0],
-            'customer_id': data[1],
-            'customer_name': data[2],
-            'loan_product': data[3],
-            'loan_amount': data[4],
-            'description': data[5],
-            'phone_number': data[6],
-            'register_date': data[7],
-            'loan_start_date': data[8],
-            'emp_name': data[9],
-            'loan_condition': data[10],
+            'emp_name': data[1],
+            'customer_id': data[2],
+            'customer_name': data[3],
+            'loan_start_date': data[4],
+            'loan_product': data[5],
+            'loan_amount': data[6],
+            'loan_condition': data[7],
+            'description': data[8],
+            'phone_number': data[9],
+            'register_date': data[10],
+            'current_process_id': data[11],
             'process_step': data[12]
         }
         datas.append(row)
+    # print(datas)
 
     # strSql2 = "SELECT process_step FROM Process"
     # result = cursor.execute(strSql2)
@@ -87,10 +88,9 @@ def WorksheetList(request):
     # print(type(Worksheet_list))
     var_id = 3
     Process_data = Process.objects.filter(id=var_id)
-    for work in Worksheet_list:
-        # print('zz', type(work))
-        break
-
+    # for work in Worksheet_list:
+    #     # print('zz', type(work))
+    #     break
     # a = Process_data[0]
     # print(a.process_step)
     # b = a.process_step
@@ -144,3 +144,12 @@ class Workdetail(DetailView):
     template_name = 'work_detail.html'
     queryset = Worksheet.objects.all()
     context_object_name = 'Workdetail'
+
+
+def charts(request):
+    return render(request, 'charts.html')
+
+
+# def index(request):
+#     return render(request, 'home.html',
+#                   {'emp_name': request.session.get('user')})

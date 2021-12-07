@@ -2,10 +2,12 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.hashers import make_password, check_password
 from .models import Fcuser
+from board.models import Worksheet
 from .forms import RegisterForm, LoginForm
 from django.views.generic.edit import FormView
 # from django.contrib.auth import authenticate, login
 from django.db.models import Q
+from datetime import datetime
 # 대훈코딩
 
 
@@ -52,8 +54,15 @@ def index(request):
         user = Fcuser.objects.filter(Q(emp_id=request.session.get('user')))
         emp_name = user.get().emp_name  #로그인된 user
         request.session['emp_name'] = emp_name
-        print("HERE!!!")
-        return render(request, 'home.html', {'fcusers': emp_name})
+        # print("HERE!!!")
+
+        within_5days_work = Worksheet.objects.filter(
+            loan_start_date__gt=datetime.today())
+
+        return render(request, 'home.html', {
+            'fcusers': emp_name,
+            'within_5days_work': within_5days_work
+        })
 
 
 # def index(request):

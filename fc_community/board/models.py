@@ -63,24 +63,9 @@ class Process(models.Model):
         verbose_name_plural = '진행척도관리'
 
 
-class loan_product(models.Model):
-    #pk -> id
-    loan_product_name = models.CharField(max_length=30,
-                                         verbose_name='대출상품이름',
-                                         null='False')
-
-    def __str__(self):
-        return self.product_name
-
-    class Meta:
-        db_table = 'loan_product'
-        verbose_name = '대출상품이름'
-        verbose_name_plural = '대출상품이름'
-
-
 class loan_product2(models.Model):
     #pk -> id
-    id2 = models.IntegerField(verbose_name='상품코드', null='False')
+    id = models.IntegerField(verbose_name='상품코드', null=False, primary_key=True)
     loan_product_name = models.CharField(max_length=30,
                                          verbose_name='대출상품이름',
                                          null='False')
@@ -90,26 +75,23 @@ class loan_product2(models.Model):
 
     class Meta:
         db_table = 'loan_product2'
-        verbose_name = '대출상품이름2'
-        verbose_name_plural = '대출상품이름2'
+        verbose_name = '대출상품이름'
+        verbose_name_plural = '대출상품이름'
 
 
-# class loan_process(models.Model):
-#     #pk -> id
-#     loan_product_id = models.ForeignKey("loan_product",related_name="loan_product",
-#                                      on_delete=models.CASCADE,
-#                                      db_column="loan_product",
-#                                      null='False')
+class LoanProcess(models.Model):
+    loan_product = models.OneToOneField('Loan_Product2',
+                                        models.DO_NOTHING,
+                                        primary_key=True)
+    loan_process_level = models.IntegerField()
+    loan_process_name = models.CharField(max_length=20)
 
-#     loan_process_level = models.IntegerField(verbose_name='진행단계', null='False')
-#     loan_process_name = models.CharField(max_length=30,
-#                                     verbose_name='진행단계',
-#                                     null='True')
+    def __str__(self):
+        return self.loan_process_name
 
-#     def __str__(self):
-#         return self.loan_product
+    class Meta:
+        db_table = 'loan_process'
+        verbose_name = '대출업무 진행단계'
+        verbose_name_plural = '대출업무 진행단계'
 
-#     class Meta:
-#         db_table = 'Process'
-#         verbose_name = '진행척도관리'
-#         verbose_name_plural = '진행척도관리'
+        unique_together = (('loan_product', 'loan_process_level'))
