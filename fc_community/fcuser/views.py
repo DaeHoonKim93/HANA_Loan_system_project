@@ -40,31 +40,6 @@ class LoginView(FormView):
         return super().form_valid(form)
 
 
-def index(request):
-    if request.session.get('user') == None:
-        return redirect('fcuser/login/')
-    # print("INDEX session user : ", request.session.get('user'))
-    # print(Fcuser)
-
-    # if user is None:
-    #     return redirect('login/')
-
-    else:
-        fcusers = Fcuser.objects.get(emp_id=request.session.get('user'))
-        user = Fcuser.objects.filter(Q(emp_id=request.session.get('user')))
-        emp_name = user.get().emp_name  #로그인된 user
-        request.session['emp_name'] = emp_name
-        # print("HERE!!!")
-
-        within_5days_work = Worksheet.objects.filter(
-            loan_start_date__gt=datetime.today())
-
-        return render(request, 'home.html', {
-            'fcusers': emp_name,
-            'within_5days_work': within_5days_work
-        })
-
-
 # def index(request):
 #     return render(request, 'home.html',
 #                   {'emp_name': request.session.get('user')})

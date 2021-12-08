@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
 {% load assets % }
+{% load humanize %}
 
 
 <head>
@@ -146,27 +147,24 @@
                         <th scope="col">대출금액</th>
                         <th scope="col">진행척도</th>
                         <th scope="col">상환조건여부</th>
-                        <th scope="col">메모</th>            
                         <th scope="col">등록날짜</th>
                     </tr>
             </thead>
             <tbody class="text-dark">
-                    {% for work in Worksheet_list %}
-						<tr>
-							<th scope="row">{{ work.id }}</th>
-							<th>{{ work.emp_name }}</th>
-							
-							<th>{{ work.customer_id }} </th>
-							<th> {{ work.customer_name }}</th>
-							<th>{{ work.loan_start_date }}</th>
-							<th> {{work.loan_product}}</th>             
-							<th>{{ work.loan_amount  }} 원</th>
-							<th> </th> 
-							<th> </th> 
-							<th> {{work.description}} </th>
-							<th>{{ work.register_date }}</th>
-						</tr>
-                    {% endfor %}
+				{% for work in datas %}
+					<tr>
+						<th>{{ work.id }}</th>
+						<th>{{ work.emp_name }}</th>
+						<th>{{ work.customer_id }} </th>
+						<th><a href="/worksheet/detail/{{ work.id }}">{{ work.customer_name }}</th>
+						<th>{{ work.loan_start_date}}</th>
+						<th> {{work.loan_product}}</th>             
+						<th> {{ work.loan_amount|intcomma}}원 </th>
+						<th>  <h4> <span class="label label-success">{{work.process_step}}</span> </h4> </th>
+						<th> Y</th>
+						<th>{{ work.register_date }}</th>
+					</tr>
+				{% endfor %}
             </tbody>
           </table>
           </div>

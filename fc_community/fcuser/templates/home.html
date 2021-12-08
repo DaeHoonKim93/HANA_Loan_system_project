@@ -1,5 +1,6 @@
 <!doctype html>
 {% load assets % }
+{% load humanize %}
 <html lang="en">
 
 <head>
@@ -190,6 +191,7 @@
 											<table class="table table-striped">
 												<thead>
 													<tr>
+														<th>담당자</th>
 														<th>고객번호</th>
 														<th>고객명</th>
 														<th>대출상품</th>
@@ -200,13 +202,15 @@
 												</thead>
 												<tbody class="text-dark">
 													{% for work in within_5days_work %}
+														
 														<tr>
+															<th>{{work.emp_name}}</th>
 															<th> {{ work.customer_id }}</th>
 															<td> {{ work.customer_name }}</td>
 															<td> {{work.loan_product}}</td>             
-															<td>{{ work.loan_amount  }} 원</td>
+															<td>{{ work.loan_amount |intcomma }} 원</td>
 															<td>{{ work.loan_start_date }}</td>
-															<td><span class="label label-success">COMPLETED</span></td>
+															<td><span class="label label-success">{{work.loan_process_name}}</span></td>
 														</tr>
 													{% endfor %}
 												</tbody>
