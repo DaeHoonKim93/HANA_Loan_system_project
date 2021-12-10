@@ -18,7 +18,7 @@
 	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
 	<!-- ICONS -->
 	<link rel="apple-touch-icon" sizes="76x76" href="/assets/img/apple-icon.png">
-	<link rel="icon" type="image/png" sizes="96x96" href="/assets/img/hana_logo.png">
+	<link rel="icon" type="image/png" sizes="96x96" href="/assets/img/title7.png">
 </head>
 
 <body>
@@ -27,7 +27,7 @@
 		<!-- NAVBAR -->
 		<nav class="navbar navbar-default navbar-fixed-top">
 			<div class="brand">
-				<a href="index.html"><img src="/assets/img/hana_logo.png" alt="Klorofil Logo" class="img-responsive logo"></a>
+				<a href="index.html"><img src="/assets/img/title7.png" alt="Klorofil Logo" class="img-responsive logo"></a>
 			</div>
 			<div class="container-fluid">
 				<div class="navbar-btn">
@@ -121,59 +121,69 @@
 			</div>
 		</div>
 		<!-- END LEFT SIDEBAR -->
-		<!-- MAIN -->
-		<div class="main">
-			<!-- MAIN CONTENT -->
-			<div class="main-content">
-				<div class="container-fluid">
-					<h3 class="page-title">Charts</h3>
-					<div class="row">
-						<div class="col-md-6">
-							<div class="panel">
-								<div class="panel-heading">
-									<h3 class="panel-title">Line Chart</h3>
-								</div>
-								<div class="panel-body">
-									<div id="demo-line-chart" class="ct-chart"></div>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-6">
-							<div class="panel">
-								<div class="panel-heading">
-									<h3 class="panel-title">11월 전세대출업무(신규)현황</h3>
-								</div>
-								<div class="panel-body">
-									<div id="demo-bar-chart" class="ct-chart"></div>
-								</div>
-							</div>
-						</div>
+      <!-- MAIN -->
+      <div class="main">
+		<!-- MAIN CONTENT -->
+		<div class="main-content">
+		   <div class="container-fluid">
+			  <h3 class="page-title">Charts</h3>
+			  <div class="row">
+				 <!-- <div class="col-md-6">
+					<div class="panel">
+					   <div class="panel-heading">
+						  <h3 class="panel-title">Line Chart</h3>
+					   </div>
+					   <div class="panel-body">
+						  <div id="demo-line-chart" class="ct-chart"></div>
+					   </div>
 					</div>
-					<div class="row">
-						<div class="col-md-6">
-							<div class="panel">
-								<div class="panel-heading">
-									<h3 class="panel-title">Area Chart</h3>
-								</div>
-								<div class="panel-body">
-									<div id="demo-area-chart" class="ct-chart"></div>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-6">
-							<div class="panel">
-								<div class="panel-heading">
-									<h3 class="panel-title">Multiple Chart</h3>
-								</div>
-								<div class="panel-body">
-									<div id="multiple-chart" class="ct-chart"></div>
-								</div>
-							</div>
-						</div>
+				 </div> -->
+				 <div class="col-md-6">
+					<div class="panel">
+					   <div class="panel-heading">
+						  <h3 class="panel-title">당월 전세대출 신규건수 현황</h3>
+					   </div>
+					   <div class="panel-body">
+						  <div id="demo-bar-chart" class="ct-chart"></div>
+					   </div>
 					</div>
-				</div>
-			</div>
-			<!-- END MAIN CONTENT -->
+				 </div>
+				 <div class="col-md-6">
+					<div class="panel">
+					   <div class="panel-heading">
+						  <h3 class="panel-title">당월 전세대출 신규금액 현황</h3>
+					   </div>
+					   <div class="panel-body">
+						  <div id="demo-bar-chart_2" class="ct-chart"></div>
+					   </div>
+					</div>
+				 </div>
+			  </div>
+			  <div class="row">
+				 <div class="col-md-6">
+					<div class="panel">
+					   <div class="panel-heading">
+						  <h3 class="panel-title">전세대출 상품별 비율</h3>
+					   </div>
+					   <div class="panel-body">
+						  <div id="demo-pie-chart" class="ct-chart"></div>
+					   </div>
+					</div>
+				 </div>
+				 <div class="col-md-6">
+					<div class="panel">
+					   <div class="panel-heading">
+						  <h3 class="panel-title">월별 전세대출 신규 건수현황</h3>
+					   </div>
+					   <div class="panel-body">
+						  <div id="demo-line-chart" class="ct-chart"></div>
+					   </div>
+					</div>
+				 </div>
+			  </div>
+		   </div>
+		</div>
+		<!-- END MAIN CONTENT -->
 		</div>
 		<!-- END MAIN -->
 		<div class="clearfix"></div>
@@ -192,98 +202,159 @@
 	<script src="/assets/vendor/chartist/js/chartist.min.js"></script>
 	<script src="/assets/scripts/klorofil-common.js"></script>
 	<script>
-	$(function() {
-		var options;
+$(function() {
+      var options;
+// 막대 첫번째 그래프
+      var data = {
+         labels: ['천지훈', '배윤주', '권지은', '김대훈', '합계'],
+         series: [ {{ data_lst }},]
+         // series: [ [10, 11, 8, 15],]
+      };
+// 막대 두번째 그래프
+      var data_2 = {
+         labels: ['천지훈', '배윤주', '권지은', '김대훈'],
+         series: [ {{ individual_amount_lst }},]
+         // series: [ [10, 11, 8, 15,20],]
+      };
+// 원형 그래프
+      var data_3 = {
+         // series: [5, 3, 4]
+         series:  {{ product_lst }},
+      };
 
-		var data = {
-			labels: ['천지훈', '배윤주', '권지은', '김대훈'],
-			series: [
-				[10, 11, 8, 15],
-			]
-		};
+      var labels = ['주신보', '우량전세', '전세안심'];
+      var sum = function(a, b) {
+         return a + b;
+      };
 
-		// line chart
-		options = {
-			height: "300px",
-			showPoint: true,
-			axisX: {
-				showGrid: false
-			},
-			lineSmooth: false,
-		};
+// 도넛 네번째 그래프
+      var data_4 = {
+         labels: ['주신보', '우량전세', '전세안심'],
+         // series: [ {{ individual_amount_lst }},]
+         series: {{ product_lst }},
+      };
 
-		new Chartist.Line('#demo-line-chart', data, options);
+// 라인차트 네번째 그래프
+      var data_5 = {
+         labels: ['7월', '8월', '9월', '10월', '11월', '12월'],
+         series: [ {{ month_lst }},]
+         // series: [ [570, 400, 555, 620, 750, 900],]
+      };
 
-		// bar chart
-		options = {
-			height: "300px",
-			axisX: {
-				showGrid: false
-			},
-		};
+// 라인차트
+      options = {
+         height: "300px",
+         showPoint: true,
+         axisX: {
+            showGrid: false
+         },
+         lineSmooth: false,
+      };
+      new Chartist.Line('#demo-line-chart', data_5, options);
 
-		new Chartist.Bar('#demo-bar-chart', data, options);
+      // bar chart
+      options = {
+         height: "300px",
+         axisX: {
+            showGrid: false
+         },
+      };
+   
+      new Chartist.Bar('#demo-bar-chart', data, options);
+
+      // bar chart
+      options = {
+         height: "300px",
+         axisX: {
+            showGrid: false
+         },
+      };
+
+      new Chartist.Bar('#demo-bar-chart_2', data_2, options);
+
+      
+      // 원파이
+      new Chartist.Pie('#demo-pie-chart', data_3, {
+         height: "300px",
+         labelInterpolationFnc: function(value, idx) {
+            var percentage = Math.round(value / data_3.series.reduce(sum) * 100) + '%';
+            return labels[idx] + ' (' + percentage + ')';
+         }
+      });
+
+      // 도넛차트
+      new Chartist.Pie('#demo-donut-chart', data_4, {
+         height: "300px",
+         donut: true,
+         donutWidth: 60,
+         donutSolid: true,
+         startAngle: 270,
+         showLabel: true
+
+         
+      });
 
 
-		// area chart
-		options = {
-			height: "270px",
-			showArea: true,
-			showLine: false,
-			showPoint: false,
-			axisX: {
-				showGrid: false
-			},
-			lineSmooth: false,
-		};
 
-		new Chartist.Line('#demo-area-chart', data, options);
+      // area chart
+      options = {
+         height: "270px",
+         showArea: true,
+         showLine: false,
+         showPoint: false,
+         axisX: {
+            showGrid: false
+         },
+         lineSmooth: false,
+      };
+
+      new Chartist.Line('#demo-area-chart', data, options);
 
 
-		// multiple chart
-		var data = {
-			labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-			series: [{
-				name: 'series-real',
-				data: [200, 380, 350, 320, 410, 450, 570, 400, 555, 620, 750, 900],
-			}, {
-				name: 'series-projection',
-				data: [240, 350, 360, 380, 400, 450, 480, 523, 555, 600, 700, 800],
-			}]
-		};
+      // multiple chart
+      var data = {
+         labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+         series: [{
+            name: 'series-real',
+            data: [200, 380, 350, 320, 410, 450, 570, 400, 555, 620, 750, 900],
+         }, {
+            name: 'series-projection',
+            data: [240, 350, 360, 380, 400, 450, 480, 523, 555, 600, 700, 800],
+         }]
+      };
 
-		var options = {
-			fullWidth: true,
-			lineSmooth: false,
-			height: "270px",
-			low: 0,
-			high: 'auto',
-			series: {
-				'series-projection': {
-					showArea: true,
-					showPoint: false,
-					showLine: false
-				},
-			},
-			axisX: {
-				showGrid: false,
+      var options = {
+         fullWidth: true,
+         lineSmooth: false,
+         height: "270px",
+         low: 0,
+         high: 'auto',
+         series: {
+            'series-projection': {
+               showArea: true,
+               showPoint: false,
+               showLine: false
+            },
+         },
+         axisX: {
+            showGrid: false,
 
-			},
-			axisY: {
-				showGrid: false,
-				onlyInteger: true,
-				offset: 0,
-			},
-			chartPadding: {
-				left: 20,
-				right: 20
-			}
-		};
+         },
+         axisY: {
+            showGrid: false,
+            onlyInteger: true,
+            offset: 0,
+         },
+         chartPadding: {
+            left: 20,
+            right: 20
+         }
+      };
 
-		new Chartist.Line('#multiple-chart', data, options);
+      new Chartist.Line('#multiple-chart', data, options);
 
-	});
-	</script>
+   });
+   </script>
 </body>
 
 </html>

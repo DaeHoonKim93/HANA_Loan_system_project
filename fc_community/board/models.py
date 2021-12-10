@@ -95,3 +95,27 @@ class LoanProcess(models.Model):
         verbose_name_plural = '대출업무 진행단계'
 
         unique_together = (('loan_product', 'loan_process_level'))
+
+
+#윤주#########################################################################################
+class TodoList(models.Model):
+    # no = models.AutoField(primary_key=True)
+    emp_name = models.CharField(max_length=32,
+                                verbose_name='직원 이름',
+                                null='True')
+    register_date = models.DateTimeField(auto_now_add=True,
+                                         verbose_name='등록날짜')
+    content = models.TextField(max_length=100)
+
+    # complete = models.BooleanField(default = False)
+
+    def __str__(self):
+        return self.content
+
+    class Meta:
+        db_table = 'TodoList'
+        verbose_name = '오늘의 할일'
+        verbose_name_plural = '오늘의 할일'
+
+
+#윤주#########################################################################################

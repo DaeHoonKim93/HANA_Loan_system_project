@@ -1,7 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponseRedirect
+from django.http import HttpResponseRedirect
+
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import FormView
-from .models import Worksheet, Process
+from .models import Worksheet, Process, TodoList
 from fcuser.models import Fcuser
 from .forms import RegisterForm
 from datetime import datetime
@@ -10,6 +12,10 @@ from django.core.paginator import Paginator
 from django.db import connection
 
 # Create your views here
+
+
+def tables(request):
+    return render(request, 'tables.html')
 
 
 def index(request):
@@ -29,7 +35,7 @@ def index(request):
         # print("HERE!!!")
 
         cursor = connection.cursor()
-        strSql = "select A.customer_id, A.customer_name, A.loan_product, A.loan_amount, A.loan_start_date  , C.loan_process_name ,A.emp_name from WorkSheet as A Left OUTER join (select A.loan_product_name, B.loan_process_level, B.loan_process_name from loan_product2 as A inner join loan_process as B on a.id = b.loan_product_id) as C on a.loan_product = C.loan_product_name WHERE A.current_process_id = C.loan_process_level AND A.loan_start_date - curdate() < 15 AND A.loan_start_date - curdate() > 0"
+        strSql = "select A.customer_id, A.customer_name, A.loan_product, A.loan_amount, A.loan_start_date  , C.loan_process_name ,A.emp_name from WorkSheet as A Left OUTER join (select A.loan_product_name, B.loan_process_level, B.loan_process_name from loan_product2 as A inner join loan_process as B on a.id = b.loan_product_id) as C on a.loan_product = C.loan_product_name WHERE A.current_process_id = C.loan_process_level AND A.loan_start_date - curdate() < 20 AND A.loan_start_date - curdate() > 0"
         result = cursor.execute(strSql)
         works = cursor.fetchall()
         connection.commit()
@@ -172,6 +178,8 @@ def WorksheetList(request):
 #     template_name = 'Total_worksheet.html'
 #     context_object_name = 'Worksheet_list'
 
+# queryset = list_to_queryset(object_list)
+
 
 def Total_worksheetList(request):
 
@@ -202,26 +210,25 @@ def Total_worksheetList(request):
         datas.append(row)
     # print(datas)
 
-    # strSql2 = "SELECT process_step FROM Process"
-    # result = cursor.execute(strSql2)
-    # proc = cursor.fetchall()
-    # connection.commit()
     # connection.close()
 
     # user = Worksheet.objects.filter(
     #     Q(emp_id=request.session.get('user')))  # where절
 
-    # Worksheet_list = Worksheet.objects.all()
-    # # print(type(Worksheet_list))
-    # var_id = 3
-    # Process_data = Process.objects.filter(id=var_id)
-    # for work in Worksheet_list:
-    #     # print('zz', type(work))
-    #     break
-    # a = Process_data[0]
-    # print(a.process_step)
-    # b = a.process_step
-    return render(request, 'Total_Worksheet.html', {'datas': datas})
+    page = request.GET.get('page', '1')  # 페이지
+
+    # 조회
+    work_list = Worksheet.objects.order_by('-id')
+    print("dd", type(work_list))
+    print("dddd", type(datas))
+
+    # print("work_list!!", work_list)
+    # print("datas", datas)
+    # 페이징처리
+    paginator = Paginator(datas, 10)  # 페이지당 10개씩 보여주기
+
+    page_obj = paginator.get_page(page)
+    return render(request, 'Total_Worksheet.html', {'datas': page_obj})
 
 
 class WorksheetCreate(FormView):
@@ -254,9 +261,98 @@ class Workdetail(DetailView):
 
 
 def charts(request):
-    return render(request, 'charts.html')
+    #sql 리스트롤
+    #쿼리를짜서 그룹바이 emp_name select count(*)
+
+    # 1. 직원별 대출 신규 건수를 확인하는 코드
+    cursor = connection.cursor()
+    strSql = "select emp_name, count(*) from worksheet group by emp_name;"
+    result = cursor.execute(strSql)
+    emp_count_lst = cursor.fetchall()
+    connection.commit()
+    # print('emp_count_lst', emp_count_lst)
+    data_lst = []
+    name_lst = []
+    for i in range(len(emp_count_lst)):
+        data_lst.append(emp_count_lst[i][1])
+        name_lst.append(emp_count_lst[i][0])
+    # print('data_list',data_lst)
+    # print('name_list',name_lst)
+
+# 2. 대출 총 건수의 합을 구하는 코드
+    strSql_2 = "select count(*) from worksheet;"
+    result_2 = cursor.execute(strSql_2)
+    total_count = cursor.fetchall()
+    connection.commit()
+    data_lst.append(total_count[0][0])
+    # print(total_count[0][0])
+
+    # 3. 직원별 대출 금액 합을 구하는 코드
+    strSql_3 = "select emp_name, sum(loan_amount) from worksheet group by emp_name;"
+    result_3 = cursor.execute(strSql_3)
+    amount_lst = cursor.fetchall()
+    connection.commit()
+    individual_amount_lst = []
+    for i in range(len(amount_lst)):
+        individual_amount_lst.append(int(amount_lst[i][1]))
+    #     print('bbbbbb', individual_amount_lst)
+    # print('aaaaaaa', individual_amount_lst)
+
+# 4. 대출 총 금액의 합을 구하는 코드
+# strSql_4 = "select sum(loan_amount) from worksheet;"
+# result_4 = cursor.execute(strSql_4)
+# total_amount = cursor.fetchall()
+# connection.commit()
+# individual_amount_lst.append(float(individual_amount_lst[0][0]))
+# print('asdasdasdasd', total_amount[0][0])
+
+# 5. 상품별 대출 신규 건수를 확인하는 코드
+    strSql_5 = "select loan_product, count(*) from worksheet group by loan_product;"
+    result = cursor.execute(strSql_5)
+    product_count = cursor.fetchall()
+    connection.commit()
+    product_lst = []
+    for i in range(len(product_count)):
+        product_lst.append(product_count[i][1])
+    print('aaaaaa', product_lst)
+
+    # 5. 모든 대출 신규 건수를 확인하는 코드
+    strSql_6 = "SELECT DATE_FORMAT(loan_start_date, '%Y-%m') as date, count(*) FROM worksheet GROUP BY DATE_FORMAT(loan_start_date, '%Y-%m') ORDER BY date ASC;"
+    result = cursor.execute(strSql_6)
+    month_total = cursor.fetchall()
+    connection.commit()
+    month_lst = []
+    for i in range(len(month_total)):
+        month_lst.append(month_total[i][1])
+    print('aaaaaa', month_lst)
+
+    return render(
+        request, 'charts.html', {
+            'data_lst': data_lst,
+            'name_lst': name_lst,
+            'individual_amount_lst': individual_amount_lst,
+            'product_lst': product_lst,
+            'month_lst': month_lst
+        })
 
 
-# def index(request):
-#     return render(request, 'home.html',
-#                   {'emp_name': request.session.get('user')})
+#윤주#########################################################################################
+
+
+def TodoList_list(request):
+    all_todo_items = TodoList.objects.all()
+    return render(request, 'todo_list.html',
+                  {'all_todo_items': all_todo_items})
+
+
+def addTodoView(request):
+    x = request.POST['content']
+    new_item = TodoList(content=x)
+    new_item.save()
+    return HttpResponseRedirect('/todo_list/')
+
+
+def deleteTodoView(request, i):
+    y = TodoList.objects.get(id=i)
+    y.delete()
+    return HttpResponseRedirect('/todo_list/')
