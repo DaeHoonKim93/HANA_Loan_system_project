@@ -136,7 +136,7 @@
          <div class="main-content">
             <div class="container-fluid">
                <div class="col-12 text-center">
-                  <h1>나의 신규 리스트</h1> 
+                  <h1>대출 업무 삭제</h1> 
                  </div>
                      <!-- BORDERED TABLE -->
 
@@ -147,27 +147,13 @@
       <!--<div class="card-body">
         <h3 class="card-title"><strong>{{ Workdetail.customer_name }}</strong></h3>
       </div>-->
-      <ul class="list-group list-group-flush">
-      <li class="list-group-item">고객명: <b>{{ Workdetail.customer_name }}</b></li> <!--지은 추가한 사항-->
-        <li class="list-group-item">고객번호: <b>{{ Workdetail.customer_id }}</b> </li>
-        <li class="list-group-item">실행예정일: <b>{{ Workdetail.loan_start_date|date:"Y-m-d"}}</b></li>
-        <li class="list-group-item">대출상품 : <b>{{ Workdetail.loan_product}} </b></li>
-      <li class="list-group-item">금액: <b>{{ Workdetail.loan_amount|intcomma }} 원</b></li>
-      <li class="list-group-item">진행척도: <b>{{ Workdetail.current_process_id }}</b></li>
-      <li class="list-group-item">진행률: <b>아직 나한테 없음</b></li>
-        <li class="list-group-item">메모: <b>{{ Workdetail.description|safe }}</b></li>
-      </ul>
-	<a href="/worksheet/"><button type="submit" class="btn btn-primary"> 목록보기 </button> </a>
-	<a href="/worksheet/update/{{ Workdetail.id }}"> <button type="submit" class="btn btn-primary"> 수정하기 </button> </a>
-	<a href="/worksheet/delete/{{ Workdetail.id }}"> <button type="submit" class="btn btn-primary"> 삭제하기 </button> </a>
-    
-	</div>
-  </div>
-  <!--<div class="row">
-    <div class="col-12">
-      {% comment %} <a href="/worksheet/">목록보기</a> {% endcomment %}
-     <a href="/worksheet/"><button type="submit" class="btn btn-primary"> 승인 </button> </a>
-    </div>
-  </div>-->
 
+
+      <form action="" method="post">
+         {% csrf_token %}
+         <h1>"{{ object }}"손님의 업무를 정말 삭제할건가요? "</h1>
+         <input type="submit" value="삭제" />
+     </form>
+   </div>
+  </div>
  

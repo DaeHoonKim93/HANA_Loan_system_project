@@ -111,87 +111,36 @@
                   <li><a href="{% url 'home' %}"class=""><i class="lnr lnr-home"></i> <span> 메인화면 </span></a></li>
                   <li><a href="{% url 'worksheetcreate'%}" class="active"><i class="lnr lnr-pencil"></i> <span>신규 대출 등록</span></a></li>
                         <li><a href="{% url 'worksheet'%}" class=""><i class="lnr lnr-user"></i> <span>나의 신규 리스트</span></a></li>
-                  <li><a href="{% url 'totalworksheet'%}"class=""><i class="lnr lnr-inbox"></i> <span>지점 전체 신규 리스트</span></a></li> 
-				  <li><a href="{% url 'charts'%}" class=""><i class="lnr lnr-chart-bars"></i> <span>실적현황</span></a></li>
-				  <li><a href="{% url 'TodoList'%}" class=""><i class="lnr lnr-list"></i> <span>오늘의 할일</span></a></li>
+                  <li><a href="{% url 'totalworksheet'%}"class=""><i class="lnr lnr-inbox"></i> <span>지점 전체 신규 리스트</span></a></li>
+                  <li><a href="{% url 'charts'%}" class=""><i class="lnr lnr-chart-bars"></i> <span>실적현황</span></a></li>
+                  <li><a href="{% url 'TodoList'%}" class=""><i class="lnr lnr-list"></i> <span>오늘의 할일</span></a></li>
 				  <li><a href="{% url 'virtualbanksystem'%}" class=""><i class="lnr lnr-cog"></i> <span>가상계정단말</span></a></li>
                   
-                  <!-- <li><a href="panels.html" class=""><i class="lnr lnr-cog"></i> <span>Panels</span></a></li>
-                  <li><a href="notifications.html" class=""><i class="lnr lnr-alarm"></i> <span>Notifications</span></a></li> -->
-
-
-                  <!--<li>
-                     <a href="#subPages" data-toggle="collapse" class="collapsed"><i class="lnr lnr-file-empty"></i> <span>Pages</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
-                     <div id="subPages" class="collapse ">
-                        <ul class="nav">
-                           <li><a href="page-profile.html" class="">Profile</a></li>
-                           <li><a href="page-login.html" class="">Login</a></li>
-                           <li><a href="page-lockscreen.html" class="">Lockscreen</a></li>
-                        </ul>
-                     </div>
-                  </li>-->
-                  <!-- <li><a href="icons.html" class=""><i class="lnr lnr-linearicons"></i> <span>Icons</span></a></li> -->
-               </ul>
+                </ul>
             </nav>
          </div>
       </div>
 
-        <div class="main">
+    <div class="main">
          <!-- MAIN CONTENT -->
-         <div class="main-content">
-            <div class="container-fluid">
+        <div class="main-content">
+            <div class="container">
 
 
-<div class="row mt-5">
-  <div class="col-12 text-center">
-    <h1>신규 대출 등록</h1> <!--대출신규 업무등록-->
-  </div>
-</div>
+                <div class="row mt-5">
+                    <div class="col-12 text-center">
+                     <h1>대출 업무 수정</h1> <!--대출신규 업무등록-->
+                     </div>
+                </div>
+        </div>
 
+        <form action="" method="post"  enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
 
-<div class="row mt-5">
-  <div class="col-12">
-    {{ error }}
-  </div>
-</div>
-<div class="row mt-5">
-  <div class="col-12">
+            <input type="submit" value="Update"/>
+        </form>    
 
-    <form method="POST" action=".">
-        {% csrf_token %}
-        {% for field in form %}
-        <div class="form-group">
-           <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-           {% if field.name == 'description' %} 
-         <textarea class="form-control" name="{{ field.name }}" id="{{ field.id_for_label }}"></textarea>
-           {% elif field.name == 'loan_start_date' %}
-              <input type="date" class="form-control" placeholder="{{field.label}}" name= "{{ field.name }}" /> 
-           {% elif field.name == 'loan_product' %}
-            <select class="form-control" name = "{{ field.name }}">
-               <option>HF 주택신용보증 전세대출</option>
-               <option>HUG 안심 전세대출</option>
-               <option>SGI 우량주택 전세대출</option>
-			</select>
-			{% elif field.name == 'loan_condition' %}
-			<select class="form-control" name = "{{ field.name }}">
-				<option>Y</option>
-				<option>N</option>
-			 </select>
-         	{% else %}
-              <input type="{{ field.field.widget.input_type }}" class="form-control" id="{{ field.id_for_label }}"
-               placeholder="{{ field.label }}" name="{{ field.name }}" />
-           {% endif %}      
-      	</div>
-      
-      
-     {% if field.errors %}
-      <span style="color: red">{{ field.errors }}</span>
-      {% endif %}
-      {% endfor %}
-      <button type="submit" class="btn btn-primary"> 등록 </button>
-    </form>
-  </div>
-</div>
 </div>
 </div>
 <!-- END MAIN CONTENT -->
@@ -209,4 +158,12 @@
 </body>
 
 </html>
+
+
+
+
+
+
+
+
 

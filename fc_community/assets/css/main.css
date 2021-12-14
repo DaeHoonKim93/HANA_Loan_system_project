@@ -993,7 +993,7 @@ ul.activity-list > li .timestamp {
   height: 12px;
 }
 .progress.progress-xs {
-  height: 5px;
+  height: 3px;
 }
 .progress.progress-sm .progress-bar,
 .progress.progress-xs .progress-bar {

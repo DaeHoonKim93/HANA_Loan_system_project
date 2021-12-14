@@ -1,11 +1,12 @@
 <!doctype html>
 <html lang="en">
 {% load assets % }
+{% load humanize %}
 
 
 
 <head>
-   <title>Tables | Klorofil - Free Bootstrap Dashboard Template</title>
+   <title>오늘의 할일 | 대출 업무 관리 시스템</title>
    <meta charset="utf-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -20,8 +21,8 @@
    <!-- GOOGLE FONTS -->
    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
    <!-- ICONS -->
-   <link rel="apple-touch-icon" sizes="76x76" href="/assets/img/apple-icon.png">
-   <link rel="icon" type="image/png" sizes="96x96" href="/assets/img/favicon.png">
+   <link rel="apple-touch-icon" sizes="76x76" href="/assets/img/hana_ci2.png">
+   <link rel="icon" type="image/png" sizes="96x96" href="/assets/img/hana_ci2.png">
 </head>
 
 <body>
@@ -30,57 +31,58 @@
       <!-- NAVBAR -->
       <nav class="navbar navbar-default navbar-fixed-top">
          <div class="brand">
-            <a href="index.html"><img src="assets/img/hana_logo2.png" alt="Klorofil Logo" class="img-responsive logo"></a>
+            <a href="{% url 'home' %}"><img src="/assets/img/title7.png" alt="Klorofil Logo" class="img-responsive logo"></a>
          </div>
          <div class="container-fluid">
             <div class="navbar-btn">
                <button type="button" class="btn-toggle-fullwidth"><i class="lnr lnr-arrow-left-circle"></i></button>
             </div>
             <form class="navbar-form navbar-left">
-               <div class="input-group">
-                  <input type="text" value="" class="form-control" placeholder="Search dashboard...">
-                  <span class="input-group-btn"><button type="button" class="btn btn-primary">Go</button></span>
-               </div>
             </form>
+         
             <div class="navbar-btn navbar-btn-right">
-               <a class="btn btn-success update-pro" href="https://www.themeineed.com/downloads/klorofil-pro-bootstrap-admin-dashboard-template/?utm_source=klorofil&utm_medium=template&utm_campaign=KlorofilPro" title="Upgrade to Pro" target="_blank"><i class="fa fa-rocket"></i> <span>UPGRADE TO PRO</span></a>
+               <a class="btn btn-success update-pro" href={% url 'logout' %} title="로그아웃" target="_blank"> <span>로그아웃</span></a>
             </div>
+            
             <div id="navbar-menu">
                <ul class="nav navbar-nav navbar-right">
+           
                   <li class="dropdown">
-                     <a href="#" class="dropdown-toggle icon-menu" data-toggle="dropdown">
-                        <i class="lnr lnr-alarm"></i>
-                        <span class="badge bg-danger">5</span>
-                     </a>
-                     <ul class="dropdown-menu notifications">
-                        <li><a href="#" class="notification-item"><span class="dot bg-warning"></span><th>{{ work.customer_id }} </th></a></li>
-                        <li><a href="#" class="notification-item"><span class="dot bg-danger"></span>zz</a></li>
-                        <li><a href="#" class="notification-item"><span class="dot bg-success"></span>Monthly report is available</a></li>
-                        <li><a href="#" class="notification-item"><span class="dot bg-warning"></span>Weekly meeting in 1 hour</a></li>
-                        <li><a href="#" class="notification-item"><span class="dot bg-success"></span>Your request has been approved</a></li>
-                        <li><a href="#" class="more">See all notifications</a></li>
-                     </ul>
+                     <a href= class="dropdown-toggle" data-toggle="dropdown"><i class="lnr lnr-question-circle"></i> <span>Help</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
+
                   </li>
-                  <li class="dropdown">
-                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="lnr lnr-question-circle"></i> <span>{{Worksheet_list.emp_name}}</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
-                     <ul class="dropdown-menu">
-                        <li><a href="#">Basic Use</a></li>
-                        <li><a href="#">Working With Data</a></li>
-                        <li><a href="#">Security</a></li>
-                        <li><a href="#">Troubleshooting</a></li>
-                     </ul>
-                  </li>
-                  <li class="dropdown">
-                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="/assets/img/user.png" class="img-circle" alt="Avatar"> 
-                        <span>{{request.session.emp_name}} </span>
-                        <i class="icon-submenu lnr lnr-chevron-down"></i></a>
-                     <ul class="dropdown-menu">
-                        <li><a href="#"><i class="lnr lnr-user"></i> <span>{{Worksheet_list.emp_name}}</span></a></li>
+                  
+                  <!--<li class="dropdown">-->
+                  <li>
+                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="/assets/img/byul.png" class="img-circle" alt="Avatar"> 
+                              <span> <strong>{{request.session.emp_name}}</strong> 대리님, 안녕하세요! </span> </a>
+                     <!--<ul class="dropdown-menu">
+                        <li><a href="#"><i class="lnr lnr-user"></i> <span>My Profile</span></a></li>
                         <li><a href="#"><i class="lnr lnr-envelope"></i> <span>Message</span></a></li>
                         <li><a href="#"><i class="lnr lnr-cog"></i> <span>Settings</span></a></li>
-                        <li><a href="#"><i class="lnr lnr-exit"></i> <span>Logout</span></a></li>
-                     </ul>
+                        <li><a href={% url 'logout' %}><i class="lnr lnr-exit"></i> <span>Logout</span></a></li>
+                     </ul>-->
                   </li>
+
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+               
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
                   <!-- <li>
                      <a class="update-pro" href="https://www.themeineed.com/downloads/klorofil-pro-bootstrap-admin-dashboard-template/?utm_source=klorofil&utm_medium=template&utm_campaign=KlorofilPro" title="Upgrade to Pro" target="_blank"><i class="fa fa-rocket"></i> <span>UPGRADE TO PRO</span></a>
                   </li> -->
@@ -94,25 +96,14 @@
          <div class="sidebar-scroll">
             <nav>
                <ul class="nav">
+                  <li><a href="{% url 'home' %}"class=""><i class="lnr lnr-home"></i> <span> 메인화면 </span></a></li>
+                  <li><a href="{% url 'worksheetcreate'%}" class=""><i class="lnr lnr-pencil"></i> <span>신규 대출 등록</span></a></li>
+                  <li><a href="{% url 'worksheet'%}" class=""><i class="lnr lnr-user"></i> <span>나의 신규 리스트</span></a></li>
+                  <li><a href="{% url 'totalworksheet'%}"class=""><i class="lnr lnr-users"></i> <span>지점 전체 신규 리스트</span></a></li>
+                  <li><a href="{% url 'charts'%}" class=""><i class="lnr lnr-chart-bars"></i> <span>실적현황</span></a></li>
+                  <li><a href="{% url 'TodoList'%}" class="active"><i class="lnr lnr-list"></i> <span>오늘의 할일</span></a></li>
+                  <li><a href="{% url 'virtualbanksystem'%}" class=""><i class="lnr lnr-cog"></i> <span>가상계정단말</span></a></li>
 
-                        <li><a href="{% url 'home' %}"class=""><i class="lnr lnr-home"></i> <span> 메인화면 </span></a></li>
-                  <li><a href="{% url 'worksheetcreate'%}" class=""><i class="lnr lnr-code"></i> <span>신규 대출 등록</span></a></li>
-                        <li><a href="{% url 'worksheet'%}" class=""><i class="lnr lnr-dice"></i> <span>나의 신규 리스트</span></a></li>
-                  <li><a href="{% url 'totalworksheet'%}" class=""><i class="lnr lnr-text-format"></i> <span>지점 전체 신규 리스트</span></a></li>
-                  <li><a href="charts.html" class=""><i class="lnr lnr-chart-bars"></i> <span>실적현황</span></a></li>
-                  <li><a href="{% url 'TodoList'%}" class=""><i class="lnr lnr-text-format"></i> <span>오늘의 할일</span></a></li>
-
-
-                  <li>
-                     <a href="#subPages" data-toggle="collapse" class="collapsed"><i class="lnr lnr-file-empty"></i> <span>Pages</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
-                     <div id="subPages" class="collapse ">
-                        <ul class="nav">
-                           <li><a href="page-profile.html" class="">Profile</a></li>
-                           <li><a href="page-login.html" class="">Login</a></li>
-                           <li><a href="page-lockscreen.html" class="">Lockscreen</a></li>
-                        </ul>
-                     </div>
-                  </li>
                   <!-- <li><a href="icons.html" class=""><i class="lnr lnr-linearicons"></i> <span>Icons</span></a></li> -->
                </ul>
             </nav>
@@ -122,38 +113,50 @@
          <!-- MAIN CONTENT -->
          <div class="main-content">
             <div class="container-fluid">
-               <h1 class="page-title">나의 할일</h1>
+               <div class="row mt-5">
+                  <div class="col-12 text-center">
+                    <h1>오늘의 할일</h1> 
+                    <p>&nbsp;</p>
+                  </div>
+                </div>
+                
+                
                      <!-- BORDERED TABLE -->
 
-      
-<!-- MAIN -->
-<div class="main">
-   <!-- MAIN CONTENT -->
-   <div class="main-content">
-      <div class="container-fluid">
-
-         <div class="row">
-         </div>
-         <div class="row">
             <div class="col-md-12">
                <!-- TODO LIST -->
                <div class="panel">
                   <div class="panel-heading">
-                     <h3 class="panel-title">My Memo</h3>
+                     <!-- <h1 class="panel-title">My Memo</h1>  -->
                      <div class="right">
-                        <button type="button" class="btn-toggle-collapse"><i class="lnr lnr-chevron-up"></i></button>
-                        <button type="button" class="btn-remove"><i class="lnr lnr-cross"></i></button>
+                        <!--<button type="button" class="btn-toggle-collapse"><i class="lnr lnr-chevron-up"></i></button>
+                        <button type="button" class="btn-remove"><i class="lnr lnr-cross"></i></button>-->
                      </div>
                   </div>
                   <div class="panel-body">
                      <div class = "logo text-left">
-                        <span>나의 할일 등록하기 </span>
+                        <span><h4><b>오늘의 할일 등록하기</b></h4> </span>
                      </div>
                      <form action="/addTodoItem/" method = "post">{% csrf_token %}
                         <!-- <input type="text" name="content"> -->
 
-                        <input type="text" name="content" placeholder="입력하세요!" style="width:900px;height:70px;font-size:15px;">
-                        <input type="submit" value="저장"  class="btn float-right">
+                        <input type="text" name="content" placeholder="나의 할 일을 입력해 주세요!" 
+                        style="width:1200px;height:80px;font-size:15px; color:#B4B4B4;
+                        border-top: 1px solid gray;;
+                        border-left: none;
+                        border-right: none;
+                        border-bottom: 1px solid gray;">
+
+
+                        
+                        <input type="submit" value="저장"  class="btn float-right" style="background-color: #0A9B97 ; color:#FFFFFF; ">
+
+                        <!--<div class="memo-button">
+                           <a class="memo-submit-button" href={% url 'logout' %} title="로그아웃" target="_blank"> <span>로그아웃</span></a>
+                        </div>-->
+                                    
+
+
                      </form> 
                      
                      <br>
@@ -178,3 +181,16 @@
 
                   </div>
                </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <script src="/assets/vendor/jquery/jquery.min.js"></script>
+   <script src="/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+   <script src="/assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+   <script src="/assets/scripts/klorofil-common.js"></script>
+
+   <script src="/assets/vendor/jquery.easy-pie-chart/jquery.easypiechart.min.js"></script>
+   <script src="/assets/vendor/chartist/js/chartist.min.js"></script>
+</body>
+</body>  

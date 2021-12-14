@@ -97,24 +97,13 @@
                         <li><a href="{% url 'worksheet'%}" class=""><i class="lnr lnr-dice"></i> <span>나의 신규 리스트</span></a></li>
 						<li><a href="{% url 'totalworksheet'%}" class=""><i class="lnr lnr-text-format"></i> <span>지점 전체 신규 리스트</span></a></li>
 						<li><a href="{% url 'charts'%}" class="active"><i class="lnr lnr-chart-bars"></i> <span>실적현황</span></a></li>
-						
+						<li><a href="{% url 'TodoList'%}" class=""><i class="lnr lnr-list"></i> <span>오늘의 할일</span></a></li>
 						<li><a href="{% url 'virtualbanksystem'%}" class=""><i class="lnr lnr-text-format"></i> <span>가상계정단말</span></a></li>
 						
 						
 						<!-- <li><a href="panels.html" class=""><i class="lnr lnr-cog"></i> <span>Panels</span></a></li>
 						<li><a href="notifications.html" class=""><i class="lnr lnr-alarm"></i> <span>Notifications</span></a></li> -->
 
-
-						<li>
-							<a href="#subPages" data-toggle="collapse" class="collapsed"><i class="lnr lnr-file-empty"></i> <span>Pages</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
-							<div id="subPages" class="collapse ">
-								<ul class="nav">
-									<li><a href="page-profile.html" class="">Profile</a></li>
-									<li><a href="page-login.html" class="">Login</a></li>
-									<li><a href="page-lockscreen.html" class="">Lockscreen</a></li>
-								</ul>
-							</div>
-						</li>
 						<!-- <li><a href="icons.html" class=""><i class="lnr lnr-linearicons"></i> <span>Icons</span></a></li> -->
 					</ul>
 				</nav>
@@ -126,7 +115,7 @@
 		<!-- MAIN CONTENT -->
 		<div class="main-content">
 		   <div class="container-fluid">
-			  <h3 class="page-title">Charts</h3>
+			  <h3 class="page-title"><b>전세대출현황</b>(하반기) </h3>
 			  <div class="row">
 				 <!-- <div class="col-md-6">
 					<div class="panel">
@@ -141,7 +130,7 @@
 				 <div class="col-md-6">
 					<div class="panel">
 					   <div class="panel-heading">
-						  <h3 class="panel-title">당월 전세대출 신규건수 현황</h3>
+						  <h3 class="panel-title"><b>전세대출 신규등록 건수 현황</b></h3>
 					   </div>
 					   <div class="panel-body">
 						  <div id="demo-bar-chart" class="ct-chart"></div>
@@ -151,7 +140,7 @@
 				 <div class="col-md-6">
 					<div class="panel">
 					   <div class="panel-heading">
-						  <h3 class="panel-title">당월 전세대출 신규금액 현황</h3>
+						  <h3 class="panel-title"><b>전세대출 신규등록 금액 현황</b>(억단위)</h3>
 					   </div>
 					   <div class="panel-body">
 						  <div id="demo-bar-chart_2" class="ct-chart"></div>
@@ -163,17 +152,17 @@
 				 <div class="col-md-6">
 					<div class="panel">
 					   <div class="panel-heading">
-						  <h3 class="panel-title">전세대출 상품별 비율</h3>
+						  <h3 class="panel-title"><b>전세대출 상품별 비율</b></h3>
 					   </div>
 					   <div class="panel-body">
-						  <div id="demo-pie-chart" class="ct-chart"></div>
+						  <b><div id="demo-pie-chart" class="ct-chart"></div></b>
 					   </div>
 					</div>
 				 </div>
 				 <div class="col-md-6">
 					<div class="panel">
 					   <div class="panel-heading">
-						  <h3 class="panel-title">월별 전세대출 신규 건수현황</h3>
+						  <h3 class="panel-title"><b>월별 전세대출 신규 건수현황</b></h3>
 					   </div>
 					   <div class="panel-body">
 						  <div id="demo-line-chart" class="ct-chart"></div>

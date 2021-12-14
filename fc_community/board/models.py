@@ -25,7 +25,9 @@ class Worksheet(models.Model):
     #                                  null='False')
     loan_amount = models.IntegerField(verbose_name='대출금액', null='True')
 
-    loan_condition = models.BooleanField(default=False)
+    loan_condition = models.CharField(max_length=10,
+                                      verbose_name='상환조건',
+                                      null='True')
     description = models.TextField(verbose_name='메모')
     phone_number = models.CharField(max_length=13,
                                     verbose_name='핸드폰번호',

@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.urls.conf import include
-from board.views import index, charts, WorksheetList, WorksheetCreate, Total_worksheetList, VirtualBankSystem, Workdetail, tables, TodoList_list, addTodoView, deleteTodoView
+from board.views import index, charts, WorksheetList, WorksheetCreate, Total_worksheetList, VirtualBankSystem, Workdetail, tables, TodoList_list, addTodoView, deleteTodoView, WorksheetUpdate, WorksheetDelete
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -33,5 +33,10 @@ urlpatterns = [
     path('worksheet/detail/<int:pk>/', Workdetail.as_view()),
     path('todo_list/', TodoList_list, name='TodoList'),
     path('addTodoItem/', addTodoView, name='addTodoView '),
-    path('deleteTodoItem/<int:i>/', deleteTodoView, name='deleteTodoView')
+    path('deleteTodoItem/<int:i>/', deleteTodoView, name='deleteTodoView'),
+    path('worksheet/update/<int:pk>/',
+         WorksheetUpdate.as_view(),
+         name='update'),
+    path('worksheet/delete/<int:pk>', WorksheetDelete.as_view(),
+         name='delete'),
 ]
