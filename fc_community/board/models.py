@@ -3,12 +3,11 @@ from fcuser.models import Fcuser
 
 
 class Worksheet(models.Model):
-
     emp_name = models.CharField(max_length=32,
                                 verbose_name='직원 이름',
                                 null='True')
 
-    customer_id = models.IntegerField(verbose_name='고객번호', default=12345678)
+    customer_id = models.IntegerField(verbose_name='고객번호', default=001)
 
     customer_name = models.CharField(max_length=256,
                                      verbose_name='고객명',
@@ -18,11 +17,6 @@ class Worksheet(models.Model):
     loan_product = models.CharField(max_length=30,
                                     verbose_name='대출상품',
                                     null='True')
-    # loan_product = models.ForeignKey("Process",
-    #                                  related_name="process",
-    #                                  on_delete=models.CASCADE,
-    #                                  db_column="loan_product",
-    #                                  null='False')
     loan_amount = models.IntegerField(verbose_name='대출금액', null='True')
 
     loan_condition = models.CharField(max_length=10,
@@ -46,26 +40,7 @@ class Worksheet(models.Model):
         verbose_name_plural = '업무목록'
 
 
-class Process(models.Model):
-    #pk -> id
-    loan_product = models.CharField(max_length=30,
-                                    verbose_name='대출상품',
-                                    null='True')
-    process_index = models.IntegerField(verbose_name='진행순번', null='True')
-    process_step = models.CharField(max_length=30,
-                                    verbose_name='진행단계',
-                                    null='True')
-
-    def __str__(self):
-        return self.loan_product
-
-    class Meta:
-        db_table = 'Process'
-        verbose_name = '진행척도관리'
-        verbose_name_plural = '진행척도관리'
-
-
-class loan_product2(models.Model):
+class LoanProduct(models.Model):
     #pk -> id
     id = models.IntegerField(verbose_name='상품코드', null=False, primary_key=True)
     loan_product_name = models.CharField(max_length=30,
@@ -76,13 +51,13 @@ class loan_product2(models.Model):
         return self.loan_product_name
 
     class Meta:
-        db_table = 'loan_product2'
+        db_table = 'loan_product'
         verbose_name = '대출상품이름'
         verbose_name_plural = '대출상품이름'
 
 
 class LoanProcess(models.Model):
-    loan_product = models.OneToOneField('Loan_Product2',
+    loan_product = models.OneToOneField('LoanProduct',
                                         models.DO_NOTHING,
                                         primary_key=True)
     loan_process_level = models.IntegerField()
@@ -99,17 +74,13 @@ class LoanProcess(models.Model):
         unique_together = (('loan_product', 'loan_process_level'))
 
 
-#윤주#########################################################################################
 class TodoList(models.Model):
-    # no = models.AutoField(primary_key=True)
     emp_name = models.CharField(max_length=32,
                                 verbose_name='직원 이름',
                                 null='True')
     register_date = models.DateTimeField(auto_now_add=True,
                                          verbose_name='등록날짜')
     content = models.TextField(max_length=100)
-
-    # complete = models.BooleanField(default = False)
 
     def __str__(self):
         return self.content
@@ -118,6 +89,3 @@ class TodoList(models.Model):
         db_table = 'TodoList'
         verbose_name = '오늘의 할일'
         verbose_name_plural = '오늘의 할일'
-
-
-#윤주#########################################################################################

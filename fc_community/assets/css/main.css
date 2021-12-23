@@ -993,7 +993,7 @@ ul.activity-list > li .timestamp {
   height: 12px;
 }
 .progress.progress-xs {
-  height: 3px;
+  height: 5px;
 }
 .progress.progress-sm .progress-bar,
 .progress.progress-xs .progress-bar {
@@ -1289,7 +1289,7 @@ ul.activity-list > li .timestamp {
   width: 58%;
   height: 100%;
   position: relative;
-  background-image: url("../../assets/img/login-bg.jpg");
+  background-image: url("../../assets/img/hana_chungla.png");
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -1325,7 +1325,7 @@ ul.activity-list > li .timestamp {
   display: block;
   width: 100%;
   height: 100%;
-  background: rgba(99, 156, 185, 0.92);
+  background: rgba(99, 156, 185, 0.4);
 }
 .auth-box .header {
   margin-bottom: 30px;

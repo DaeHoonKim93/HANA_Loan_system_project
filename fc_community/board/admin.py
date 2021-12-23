@@ -1,7 +1,5 @@
 from django.contrib import admin
-from .models import Worksheet, Process, LoanProcess, loan_product2, TodoList
-
-# Register your models here.
+from .models import Worksheet, LoanProcess, LoanProduct, TodoList
 
 
 class WorksheetAdmin(admin.ModelAdmin):
@@ -13,18 +11,11 @@ class WorksheetAdmin(admin.ModelAdmin):
 admin.site.register(Worksheet, WorksheetAdmin)
 
 
-class ProcessAdmin(admin.ModelAdmin):
-    list_display = ('loan_product', 'process_index', 'process_step')
-
-
-admin.site.register(Process, ProcessAdmin)
-
-
-class loan_product2Admin(admin.ModelAdmin):
+class LoanProductAdmin(admin.ModelAdmin):
     list_display = ('id', 'loan_product_name')
 
 
-admin.site.register(loan_product2, loan_product2Admin)
+admin.site.register(LoanProduct, LoanProductAdmin)
 
 
 class LoanProcessAdmin(admin.ModelAdmin):

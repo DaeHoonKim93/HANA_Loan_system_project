@@ -5,7 +5,7 @@
 
 
 <head>
-   <title>나의 신규 리스트 | 대출 업무 관리 시스템</title>
+   <title>대출 상세 정보 | 대출 업무 관리 시스템</title>
    <meta charset="utf-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -15,8 +15,6 @@
    <link rel="stylesheet" href="/assets/vendor/linearicons/style.css">
    <!-- MAIN CSS -->
    <link rel="stylesheet" href="/assets/css/main.css">
-   <!-- FOR DEMO PURPOSES ONLY. You should remove this in your project -->
-   <link rel="stylesheet" href="/assets/css/demo.css">
    <!-- GOOGLE FONTS -->
    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
    <!-- ICONS -->
@@ -28,146 +26,106 @@
 <body>
    <!-- WRAPPER -->
    <div id="wrapper">
+
       <!-- NAVBAR -->
       <nav class="navbar navbar-default navbar-fixed-top">
          <div class="brand">
-            <a href={% url 'home' %}><img src="/assets/img/title7.png" alt="Klorofil Logo" class="img-responsive logo"></a>
+            <a href={% url 'home' %}><img src="/assets/img/title.png" alt="HANA BANK" class="img-responsive logo"></a>
          </div>
+
          <div class="container-fluid">
             <div class="navbar-btn">
                <button type="button" class="btn-toggle-fullwidth"><i class="lnr lnr-arrow-left-circle"></i></button>
             </div>
+
             <form class="navbar-form navbar-left">
             </form>
+
             <div class="navbar-btn navbar-btn-right">
                <a class="btn btn-success update-pro" href={% url 'logout' %} title="로그아웃" target="_blank"> <span>로그아웃</span></a>
             </div>
+
             <div id="navbar-menu">
                <ul class="nav navbar-nav navbar-right">
-                  <!--<li class="dropdown">
-                     <a href="#" class="dropdown-toggle icon-menu" data-toggle="dropdown">
-                        <i class="lnr lnr-alarm"></i>
-                        <span class="badge bg-danger">5</span>
-                     </a>
-                     <ul class="dropdown-menu notifications">
-                        <li><a href="#" class="notification-item"><span class="dot bg-warning"></span><th>{{ work.customer_id }} </th></a></li>
-                        <li><="#" class="notification-item"><span class="dot bg-danger"></span>zz</a></li>
-                        <li><a href="#" class="notification-item"><span class="dot bg-success"></span>Monthly report is available</a></li>
-                        <li><a href="#" class="notification-item"><span class="dot bg-warning"></span>Weekly meeting in 1 hour</a></li>
-                        <li><a href="#" class="notification-item"><span class="dot bg-warning"></span>{{emps}}</a></li>
-                        <li><a href="#" class="notification-item"><span class="dot bg-danger"></span>{{emp_id}}</a></li>
-                        <li><a href="#" class="notification-item"><span class="dot bg-success"></span>{{password}}</a></li>
-                        <li><a href="#" class="notification-item"><span class="dot bg-warning"></span>{{registered_dttm}}</a></li>
-                        <li><a href="#" class="notification-item"><span class="dot bg-success"></span>Your request has been approved</a></li>
-                        <li><a href="#" class="more">See all notifications</a></li>
-                     </ul>
-                  </li>-->
-                  
                   <li class="dropdown">
                      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="lnr lnr-question-circle"></i> <span>Help</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
-                     <ul class="dropdown-menu"> <!-- 아래는 Q마크-->
-                        <li><a href="#">How To Use</a></li>
-                        <li><a href="#">KKul Tip</a></li>
-                        <!--<li><a href="#">{% if request.user.is_authenticated %} 
-                           {{request.session.emp_name}}  {% else %} NOT_LOGIN {% endif %} </a></li>-->
-                     </ul>
+                     
                   </li>
+
                   <li class="dropdown">
-                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="/assets/img/byul.png" class="img-circle" alt="Avatar"> 
-                           <span> <strong>{{request.session.emp_name}}</strong> 대리님, 안녕하세요! </span> </a>
-                        <!--<i class="icon-submenu lnr lnr-chevron-down"></i></a>-->
-                     <!--<ul class="dropdown-menu">
-                        <li><a href="#"><i class="lnr lnr-user"></i> <span>My Profile</span></a></li>
-                        <li><a href="#"><i class="lnr lnr-envelope"></i> <span>Message</span></a></li>
-                        <li><a href="#"><i class="lnr lnr-cog"></i> <span>Settings</span></a></li>
-                        <li><a href={% url 'logout' %}><i class="lnr lnr-exit"></i> <span>Logout</span></a></li>
-                     </ul>-->
+                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="/assets/img/byul.png" class="img-circle" alt="Avatar"> <span> <strong>{{request.session.emp_name}}</strong> 대리님, 안녕하세요! </span> </a>
                   </li>
-                  <!-- <li>
-                     <a class="update-pro" href={% url 'logout' %} title="로그아웃" target="_blank"><i class="fa fa-rocket"></i> <span>로그아웃</span></a>
-                  </li> -->
                </ul>
             </div>
+
          </div>
       </nav>
       <!-- END NAVBAR -->
+
+
       <!-- LEFT SIDEBAR -->
          <!-- LEFT SIDEBAR -->
          <div id="sidebar-nav" class="sidebar" >
             <div class="sidebar-scroll">
                <nav>
                   <ul class="nav">
-   
+
                      <li><a href="{% url 'home' %}"class=""><i class="lnr lnr-home"></i> <span> 메인화면 </span></a></li>
                      <li><a href="{% url 'worksheetcreate'%}" class=""><i class="lnr lnr-pencil"></i> <span>신규 대출 등록</span></a></li>
                      <li><a href="{% url 'worksheet'%}" class="active"><i class="lnr lnr-user"></i> <span>나의 신규 리스트</span></a></li>
-                     <li><a href="{% url 'totalworksheet'%}" class=""><i class="lnr lnr-inbox"></i> <span>지점 전체 신규 리스트</span></a></li>
-                     <li><a href="{% url 'charts'%}" class=""><i class="lnr lnr-chart-bars"></i> <span>실적현황</span></a></li>
+                     <li><a href="{% url 'totalworksheet'%}" class=""><i class="lnr lnr-users"></i> <span>지점 전체 신규 리스트</span></a></li>
+                     <li><a href="{% url 'charts'%}" class=""><i class="lnr lnr-chart-bars"></i> <span>업무 현황 (차트)</span></a></li>
                      <li><a href="{% url 'TodoList'%}" class=""><i class="lnr lnr-list"></i> <span>오늘의 할일</span></a></li>
-				  <li><a href="{% url 'virtualbanksystem'%}" class=""><i class="lnr lnr-cog"></i> <span>가상계정단말</span></a></li>
-                  
-                     
-                     <!-- <li><a href="panels.html" class=""><i class="lnr lnr-cog"></i> <span>Panels</span></a></li>
-                     <li><a href="notifications.html" class=""><i class="lnr lnr-alarm"></i> <span>Notifications</span></a></li> -->
-   
-   
-                     <!--<li>
-                        <a href="#subPages" data-toggle="collapse" class="collapsed"><i class="lnr lnr-file-empty"></i> <span>Pages</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
-                        <div id="subPages" class="collapse ">
-                           <ul class="nav">
-                              <li><a href="page-profile.html" class="">Profile</a></li>
-                              <li><a href="page-login.html" class="">Login</a></li>
-                              <li><a href="page-lockscreen.html" class="">Lockscreen</a></li>
-                           </ul>
-                        </div>
-                     </li>-->
-                     <!-- <li><a href="icons.html" class=""><i class="lnr lnr-linearicons"></i> <span>Icons</span></a></li> -->
+					 <li><a href="{% url 'virtualbanksystem'%}" class=""><i class="lnr lnr-cog"></i> <span>가상계정단말</span></a></li>
                   </ul>
                </nav>
             </div>
          </div>
          <!-- END LEFT SIDEBAR -->
    
-
-
-
+      <!-- MAIN -->
       <div class="main">
+
          <!-- MAIN CONTENT -->
          <div class="main-content">
             <div class="container-fluid">
                <div class="col-12 text-center">
-                  <h1>나의 신규 리스트</h1> 
-                 </div>
-                     <!-- BORDERED TABLE -->
+                  <h1>대출 상세 정보</h1> 
+                  <p>&nbsp;</p>
+               </div>
 
+               <!-- BORDERED TABLE -->
+               <div class="row mt-5">
+                  <div class="col-12">
+                     <div class="card" style="width: 100%;">
+                        <ul class="list-group list-group-flush">
+                           <li class="list-group-item">고객명: <b>{{ Workdetail.customer_name }}</b></li>
+                           <li class="list-group-item">고객번호: <b>{{ Workdetail.customer_id }}</b> </li>
+                           <li class="list-group-item">실행예정일: <b>{{ Workdetail.loan_start_date|date:"Y-m-d"}}</b></li>
+                           <li class="list-group-item">대출상품 : <b>{{ Workdetail.loan_product}} </b></li>
+                           <li class="list-group-item">금액: <b>{{ Workdetail.loan_amount|intcomma }} 원</b></li>
+                           <li class="list-group-item">진행 중 단계: <b>{{ Workdetail.current_process_id }}</b></li>
+                           <li class="list-group-item">메모: <b>{{ Workdetail.description|safe }}</b></li>
+                        </ul>
+                        
+                        <a href="/worksheet/"><button type="submit" class="btn btn-primary"> 목록보기 </button> </a>
+                        <a href="/worksheet/update/{{ Workdetail.id }}"> <button type="submit" class="btn btn-primary"> 수정하기 </button> </a>
+                        <a href="/worksheet/delete/{{ Workdetail.id }}"> <button type="submit" class="btn btn-primary"> 삭제하기 </button> </a>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
 
-<div class="row mt-5">
-  <div class="col-12">
-    <div class="card" style="width: 100%;">
-      <!--<div class="card-body">
-        <h3 class="card-title"><strong>{{ Workdetail.customer_name }}</strong></h3>
-      </div>-->
-      <ul class="list-group list-group-flush">
-      <li class="list-group-item">고객명: <b>{{ Workdetail.customer_name }}</b></li> <!--지은 추가한 사항-->
-        <li class="list-group-item">고객번호: <b>{{ Workdetail.customer_id }}</b> </li>
-        <li class="list-group-item">실행예정일: <b>{{ Workdetail.loan_start_date|date:"Y-m-d"}}</b></li>
-        <li class="list-group-item">대출상품 : <b>{{ Workdetail.loan_product}} </b></li>
-      <li class="list-group-item">금액: <b>{{ Workdetail.loan_amount|intcomma }} 원</b></li>
-      <li class="list-group-item">진행척도: <b>{{ Workdetail.current_process_id }}</b></li>
-      <li class="list-group-item">진행률: <b>아직 나한테 없음</b></li>
-        <li class="list-group-item">메모: <b>{{ Workdetail.description|safe }}</b></li>
-      </ul>
-	<a href="/worksheet/"><button type="submit" class="btn btn-primary"> 목록보기 </button> </a>
-	<a href="/worksheet/update/{{ Workdetail.id }}"> <button type="submit" class="btn btn-primary"> 수정하기 </button> </a>
-	<a href="/worksheet/delete/{{ Workdetail.id }}"> <button type="submit" class="btn btn-primary"> 삭제하기 </button> </a>
-    
-	</div>
-  </div>
-  <!--<div class="row">
-    <div class="col-12">
-      {% comment %} <a href="/worksheet/">목록보기</a> {% endcomment %}
-     <a href="/worksheet/"><button type="submit" class="btn btn-primary"> 승인 </button> </a>
-    </div>
-  </div>-->
+   <!-- Javascript -->
+   <script src="/assets/vendor/jquery/jquery.min.js"></script>
+   <script src="/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+   <script src="/assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+   <script src="/assets/vendor/jquery.easy-pie-chart/jquery.easypiechart.min.js"></script>
+   <script src="/assets/vendor/chartist/js/chartist.min.js"></script>
+   <script src="/assets/scripts/klorofil-common.js"></script>
 
- 
+</body>
+

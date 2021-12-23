@@ -1,348 +1,317 @@
 <!doctype html>
 <html lang="en">
 {% load assets % }
+{% load humanize %}
 
 <head>
-	<title>Charts | Klorofil - Free Bootstrap Dashboard Template</title>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-	<!-- VENDOR CSS -->
-	<link rel="stylesheet" href="/assets/vendor/bootstrap/css/bootstrap.min.css">
-	<link rel="stylesheet" href="/assets/vendor/font-awesome/css/font-awesome.min.css">
-	<link rel="stylesheet" href="/assets/vendor/linearicons/style.css">
-	<link rel="stylesheet" href="/assets/vendor/chartist/css/chartist-custom.css">
-	<!-- MAIN CSS -->
-	<link rel="stylesheet" href="/assets/css/main.css">
-	<!-- GOOGLE FONTS -->
-	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
-	<!-- ICONS -->
-	<link rel="apple-touch-icon" sizes="76x76" href="/assets/img/apple-icon.png">
-	<link rel="icon" type="image/png" sizes="96x96" href="/assets/img/title7.png">
+   <title>업무 현황 | 대출 업무 관리 시스템</title>
+   <meta charset="utf-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+   <!-- VENDOR CSS -->
+   <link rel="stylesheet" href="/assets/vendor/bootstrap/css/bootstrap.min.css">
+   <link rel="stylesheet" href="/assets/vendor/font-awesome/css/font-awesome.min.css">
+   <link rel="stylesheet" href="/assets/vendor/linearicons/style.css">
+   <link rel="stylesheet" href="/assets/vendor/chartist/css/chartist-custom.css">
+   <!-- MAIN CSS -->
+   <link rel="stylesheet" href="/assets/css/main.css">
+   <!-- GOOGLE FONTS -->
+   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
+   <!-- ICONS -->
+   <link rel="apple-touch-icon" sizes="76x76" href="/assets/img/hana_ci2.png">
+   <link rel="icon" type="image/png" sizes="96x96" href="/assets/img/hana_ci2.png">
 </head>
 
 <body>
-	<!-- WRAPPER -->
-	<div id="wrapper">
-		<!-- NAVBAR -->
-		<nav class="navbar navbar-default navbar-fixed-top">
-			<div class="brand">
-				<a href="index.html"><img src="/assets/img/title7.png" alt="Klorofil Logo" class="img-responsive logo"></a>
-			</div>
-			<div class="container-fluid">
-				<div class="navbar-btn">
-					<button type="button" class="btn-toggle-fullwidth"><i class="lnr lnr-arrow-left-circle"></i></button>
-				</div>
-				<form class="navbar-form navbar-left">
-					<div class="input-group">
-						<input type="text" value="" class="form-control" placeholder="Search dashboard...">
-						<span class="input-group-btn"><button type="button" class="btn btn-primary">Go</button></span>
-					</div>
-				</form>
-				<div class="navbar-btn navbar-btn-right">
-					<a class="btn btn-success update-pro" href="https://www.themeineed.com/downloads/klorofil-pro-bootstrap-admin-dashboard-template/?utm_source=klorofil&utm_medium=template&utm_campaign=KlorofilPro" title="로그아웃" target="_blank"><i class="fa fa-rocket"></i> <span> 로그아웃 </span></a>
-				</div>
-				<div id="navbar-menu">
-					<ul class="nav navbar-nav navbar-right">
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle icon-menu" data-toggle="dropdown">
-								<i class="lnr lnr-alarm"></i>
-								<span class="badge bg-danger">5</span>
-							</a>
-							<ul class="dropdown-menu notifications">
-								<li><a href="#" class="notification-item"><span class="dot bg-warning"></span>{{emps}}</a></li>
-								<li><a href="#" class="notification-item"><span class="dot bg-danger"></span>{{emp_id}}</a></li>
-								<li><a href="#" class="notification-item"><span class="dot bg-success"></span>{{password}}</a></li>
-								<li><a href="#" class="notification-item"><span class="dot bg-warning"></span>{{registered_dttm}}</a></li>
-								<li><a href="#" class="notification-item"><span class="dot bg-success"></span>Your request has been approved</a></li>
-								<li><a href="#" class="more">See all notifications</a></li>
-							</ul>
-						</li>
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="lnr lnr-question-circle"></i> <span>Help</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
-							<ul class="dropdown-menu">
-								<li><a href="#">Basic Use</a></li>
-								<li><a href="#">Working With Data</a></li>
-								<li><a href="#">Security</a></li>
-								<li><a href="#">{% if request.user.is_authenticated %} 
-									{{request.session.emp_name}} {% else %} NOT_LOGIN {% endif %} </a></li>
-							</ul>
-						</li>
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="/assets/img/user.png" class="img-circle" alt="Avatar"> 
-										<span> {{request.session.emp_name}}  </span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
-							<ul class="dropdown-menu">
-								<li><a href="#"><i class="lnr lnr-user"></i> <span>My Profile</span></a></li>
-								<li><a href="#"><i class="lnr lnr-envelope"></i> <span>Message</span></a></li>
-								<li><a href="#"><i class="lnr lnr-cog"></i> <span>Settings</span></a></li>
-								<li><a href={% url 'logout' %}><i class="lnr lnr-exit"></i> <span>Logout</span></a></li>
-							</ul>
-						</li>
-						<!-- <li>
-							<a class="update-pro" href="https://www.themeineed.com/downloads/klorofil-pro-bootstrap-admin-dashboard-template/?utm_source=klorofil&utm_medium=template&utm_campaign=KlorofilPro" title="Upgrade to Pro" target="_blank"><i class="fa fa-rocket"></i> <span>UPGRADE TO PRO</span></a>
-						</li> -->
-					</ul>
-				</div>
-			</div>
-		</nav>
-		<!-- END NAVBAR -->
-		<!-- LEFT SIDEBAR -->
-		<!-- LEFT SIDEBAR -->
-		<div id="sidebar-nav" class="sidebar" >
-			<div class="sidebar-scroll">
-				<nav>
-					<ul class="nav">
-						<li><a href="{% url 'home' %}"class=""><i class="lnr lnr-home"></i> <span> 메인화면 </span></a></li>
-						<li><a href="{% url 'worksheetcreate'%}" class=""><i class="lnr lnr-code"></i> <span>신규 대출 등록</span></a></li>
-                        <li><a href="{% url 'worksheet'%}" class=""><i class="lnr lnr-dice"></i> <span>나의 신규 리스트</span></a></li>
-						<li><a href="{% url 'totalworksheet'%}" class=""><i class="lnr lnr-text-format"></i> <span>지점 전체 신규 리스트</span></a></li>
-						<li><a href="{% url 'charts'%}" class="active"><i class="lnr lnr-chart-bars"></i> <span>실적현황</span></a></li>
-						<li><a href="{% url 'TodoList'%}" class=""><i class="lnr lnr-list"></i> <span>오늘의 할일</span></a></li>
-						<li><a href="{% url 'virtualbanksystem'%}" class=""><i class="lnr lnr-text-format"></i> <span>가상계정단말</span></a></li>
-						
-						
-						<!-- <li><a href="panels.html" class=""><i class="lnr lnr-cog"></i> <span>Panels</span></a></li>
-						<li><a href="notifications.html" class=""><i class="lnr lnr-alarm"></i> <span>Notifications</span></a></li> -->
+   <!-- WRAPPER -->
+   <div id="wrapper">
 
-						<!-- <li><a href="icons.html" class=""><i class="lnr lnr-linearicons"></i> <span>Icons</span></a></li> -->
-					</ul>
-				</nav>
-			</div>
-		</div>
-		<!-- END LEFT SIDEBAR -->
-      <!-- MAIN -->
-      <div class="main">
-		<!-- MAIN CONTENT -->
-		<div class="main-content">
-		   <div class="container-fluid">
-			  <h3 class="page-title"><b>전세대출현황</b>(하반기) </h3>
-			  <div class="row">
-				 <!-- <div class="col-md-6">
-					<div class="panel">
-					   <div class="panel-heading">
-						  <h3 class="panel-title">Line Chart</h3>
-					   </div>
-					   <div class="panel-body">
-						  <div id="demo-line-chart" class="ct-chart"></div>
-					   </div>
-					</div>
-				 </div> -->
-				 <div class="col-md-6">
-					<div class="panel">
-					   <div class="panel-heading">
-						  <h3 class="panel-title"><b>전세대출 신규등록 건수 현황</b></h3>
-					   </div>
-					   <div class="panel-body">
-						  <div id="demo-bar-chart" class="ct-chart"></div>
-					   </div>
-					</div>
-				 </div>
-				 <div class="col-md-6">
-					<div class="panel">
-					   <div class="panel-heading">
-						  <h3 class="panel-title"><b>전세대출 신규등록 금액 현황</b>(억단위)</h3>
-					   </div>
-					   <div class="panel-body">
-						  <div id="demo-bar-chart_2" class="ct-chart"></div>
-					   </div>
-					</div>
-				 </div>
-			  </div>
-			  <div class="row">
-				 <div class="col-md-6">
-					<div class="panel">
-					   <div class="panel-heading">
-						  <h3 class="panel-title"><b>전세대출 상품별 비율</b></h3>
-					   </div>
-					   <div class="panel-body">
-						  <b><div id="demo-pie-chart" class="ct-chart"></div></b>
-					   </div>
-					</div>
-				 </div>
-				 <div class="col-md-6">
-					<div class="panel">
-					   <div class="panel-heading">
-						  <h3 class="panel-title"><b>월별 전세대출 신규 건수현황</b></h3>
-					   </div>
-					   <div class="panel-body">
-						  <div id="demo-line-chart" class="ct-chart"></div>
-					   </div>
-					</div>
-				 </div>
-			  </div>
-		   </div>
-		</div>
-		<!-- END MAIN CONTENT -->
-		</div>
-		<!-- END MAIN -->
-		<div class="clearfix"></div>
-		<footer>
-			<div class="container-fluid">
-				<p class="copyright">Shared by <i class="fa fa-love"></i><a href="https://bootstrapthemes.co">BootstrapThemes</a>
-</p>
-			</div>
-		</footer>
-	</div>
-	<!-- END WRAPPER -->
-	<!-- Javascript -->
-	<script src="/assets/vendor/jquery/jquery.min.js"></script>
-	<script src="/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
-	<script src="/assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-	<script src="/assets/vendor/chartist/js/chartist.min.js"></script>
-	<script src="/assets/scripts/klorofil-common.js"></script>
-	<script>
-$(function() {
-      var options;
-// 막대 첫번째 그래프
-      var data = {
-         labels: ['천지훈', '배윤주', '권지은', '김대훈', '합계'],
-         series: [ {{ data_lst }},]
-         // series: [ [10, 11, 8, 15],]
-      };
-// 막대 두번째 그래프
-      var data_2 = {
-         labels: ['천지훈', '배윤주', '권지은', '김대훈'],
-         series: [ {{ individual_amount_lst }},]
-         // series: [ [10, 11, 8, 15,20],]
-      };
-// 원형 그래프
-      var data_3 = {
-         // series: [5, 3, 4]
-         series:  {{ product_lst }},
-      };
+      <!-- NAVBAR -->
+      <nav class="navbar navbar-default navbar-fixed-top">
+         <div class="brand">
+            <a href={% url 'home' %}><img src="/assets/img/title.png" alt="HANA BANK" class="img-responsive logo"></a>
+         </div>
 
-      var labels = ['주신보', '우량전세', '전세안심'];
-      var sum = function(a, b) {
-         return a + b;
-      };
+         <div class="container-fluid">
+            <div class="navbar-btn">
+               <button type="button" class="btn-toggle-fullwidth"><i class="lnr lnr-arrow-left-circle"></i></button>
+            </div>
 
-// 도넛 네번째 그래프
-      var data_4 = {
-         labels: ['주신보', '우량전세', '전세안심'],
-         // series: [ {{ individual_amount_lst }},]
-         series: {{ product_lst }},
-      };
+            <div class="navbar-btn navbar-btn-right">
+               <a class="btn btn-success update-pro" href={% url 'logout' %} title="로그아웃" target="_blank"> <span>로그아웃</span></a>
+            </div>
 
-// 라인차트 네번째 그래프
-      var data_5 = {
-         labels: ['7월', '8월', '9월', '10월', '11월', '12월'],
-         series: [ {{ month_lst }},]
-         // series: [ [570, 400, 555, 620, 750, 900],]
-      };
+            <div id="navbar-menu">
+               <ul class="nav navbar-nav navbar-right">
+                  <li class="dropdown">
+                     <a href= class="dropdown-toggle" data-toggle="dropdown"><i class="lnr lnr-question-circle"></i> <span>Help</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
+                     <ul class="dropdown-menu">
+                        
+                     </ul>
+                  </li>
 
-// 라인차트
-      options = {
-         height: "300px",
-         showPoint: true,
-         axisX: {
-            showGrid: false
-         },
-         lineSmooth: false,
-      };
-      new Chartist.Line('#demo-line-chart', data_5, options);
+                  <li class="dropdown">
+                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="/assets/img/byul.png" class="img-circle" alt="Avatar"> <span> <strong>{{request.session.emp_name}}</strong> 대리님, 안녕하세요! </span> </a>
+                  </li>
+               </ul>
+            </div>
 
-      // bar chart
-      options = {
-         height: "300px",
-         axisX: {
-            showGrid: false
-         },
-      };
-   
-      new Chartist.Bar('#demo-bar-chart', data, options);
-
-      // bar chart
-      options = {
-         height: "300px",
-         axisX: {
-            showGrid: false
-         },
-      };
-
-      new Chartist.Bar('#demo-bar-chart_2', data_2, options);
+         </div>
+      </nav>
+      <!-- END NAVBAR -->
 
       
+      <!-- LEFT SIDEBAR -->
+      <!-- LEFT SIDEBAR -->
+      <div id="sidebar-nav" class="sidebar" >
+         <div class="sidebar-scroll">
+            <nav>
+               <ul class="nav">
+                  <li><a href="{% url 'home' %}"class=""><i class="lnr lnr-home"></i> <span> 메인화면 </span></a></li>
+                  <li><a href="{% url 'worksheetcreate'%}" class=""><i class="lnr lnr-pencil"></i> <span>신규 대출 등록</span></a></li>
+                        <li><a href="{% url 'worksheet'%}" class=""><i class="lnr lnr-user"></i> <span>나의 신규 리스트</span></a></li>
+                  <li><a href="{% url 'totalworksheet'%}" class=""><i class="lnr lnr-users"></i> <span>지점 전체 신규 리스트</span></a></li>
+                  <li><a href="{% url 'charts'%}" class="active"><i class="lnr lnr-chart-bars"></i> <span>업무 현황 (차트)</span></a></li>
+                  <li><a href="{% url 'TodoList'%}" class=""><i class="lnr lnr-list"></i> <span>오늘의 할일</span></a></li>
+                  <li><a href="{% url 'virtualbanksystem'%}" class=""><i class="lnr lnr-cog"></i> <span>가상계정단말</span></a></li>   
+               </ul>
+            </nav>
+         </div>
+      </div>
+      <!-- END LEFT SIDEBAR -->
+
+
+       <!-- MAIN -->
+       <div class="main">
+         <!-- MAIN CONTENT -->
+         <div class="main-content">
+            <div class="container-fluid">
+               <div class="row mt-5">
+                  <div class="col-12 text-center">
+                       <h1>업무 현황</h1> 
+                  </div>
+                 </div>
+
+               <div class="panel-heading">
+                  <h4>2021년 하반기 기준</h4>
+               </div>
+
+                 <div class="row">
+                  <div class="col-md-6">
+                     <div class="panel">
+                           <div class="panel-heading">
+                           <h3 class="panel-title"><b>전세대출 신규등록 건수 현황 </b></h3>
+                           </div>
+
+                           <div class="panel-body">
+                          <div id="demo-bar-chart" class="ct-chart"></div>
+                           </div>
+                     </div>
+                  </div>
+
+                  <div class="col-md-6">
+                     <div class="panel">
+                           <div class="panel-heading">
+                             <h3 class="panel-title"><b>전세대출 신규등록 금액 현황 </b>(억단위)</h3>
+                           </div>
+
+                           <div class="panel-body">
+                             <div id="demo-bar-chart_2" class="ct-chart"></div>
+                           </div>
+                     </div>
+
+                  </div>
+               </div>
+
+                 <div class="row">
+                  <div class="col-md-6">
+                     <div class="panel">
+                           <div class="panel-heading">
+                             <h3 class="panel-title"><b>전세대출 상품별 비율</b></h3>
+                           </div>
+
+                           <div class="panel-body">
+                             <b><div id="demo-pie-chart" class="ct-chart"></div></b>
+                           </div>
+                     </div>
+                   </div>
+
+                  <div class="col-md-6">
+                     <div class="panel">
+                           <div class="panel-heading">
+                             <h3 class="panel-title"><b>월별 전세대출 신규 건수현황</b></h3>
+                           </div>
+
+                        <div class="panel-body">
+                          <div id="demo-line-chart" class="ct-chart"></div>
+                        </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <!-- END MAIN CONTENT -->
+      </div>
+      <!-- END MAIN -->
+   
+   
+
+
+      <div class="clearfix"></div>
+         <footer>
+
+         </footer>
+      </div>
+   </div>
+   <!-- END WRAPPER -->
+
+
+   <!-- Javascript -->
+   <script src="/assets/vendor/jquery/jquery.min.js"></script>
+   <script src="/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+   <script src="/assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+   <script src="/assets/vendor/chartist/js/chartist.min.js"></script>
+   <script src="/assets/scripts/klorofil-common.js"></script>
+   <script>
+      $(function() {
+            var options;
+
+      // 막대 첫번째 그래프
+            var data = {
+               labels: ['천지훈', '권지은', '김대훈', '합계'],
+               series: [ {{ data_lst }},]
+            };
+
+      // 막대 두번째 그래프
+            var data_2 = {
+               labels: ['천지훈', '권지은', '김대훈'],
+               series: [ {{ individual_amount_lst }},]
+            };
+
+      // 원형 그래프
+            var data_3 = {
+               series:  {{ product_lst }},
+            };
+        
+            var labels = ['주신보', '우량전세', '전세안심'];
+            var sum = function(a, b) {
+               return a + b;
+            };
+        
+      // 도넛 네번째 그래프
+            var data_4 = {
+               labels: ['주신보', '우량전세', '전세안심'],
+               series: {{ product_lst }},
+            };
+        
+      // 라인차트 네번째 그래프
+            var data_5 = {
+               labels: ['7월', '8월', '9월', '10월', '11월', '12월'],
+               series: [ {{ month_lst }},]
+            };
+        
+      // 라인차트
+            options = {
+               height: "300px",
+               showPoint: true,
+               axisX: {
+                  showGrid: false
+               },
+               lineSmooth: false,
+            };
+            new Chartist.Line('#demo-line-chart', data_5, options);
+        
+      // bar chart
+            options = {
+               height: "300px",
+               axisX: {
+                  showGrid: false
+               },
+            };
+            new Chartist.Bar('#demo-bar-chart', data, options);
+        
+      // bar chart
+            options = {
+               height: "300px",
+               axisX: {
+                  showGrid: false
+               },
+            };
+            new Chartist.Bar('#demo-bar-chart_2', data_2, options);
+        
       // 원파이
-      new Chartist.Pie('#demo-pie-chart', data_3, {
-         height: "300px",
-         labelInterpolationFnc: function(value, idx) {
-            var percentage = Math.round(value / data_3.series.reduce(sum) * 100) + '%';
-            return labels[idx] + ' (' + percentage + ')';
-         }
-      });
-
+            new Chartist.Pie('#demo-pie-chart', data_3, {
+               height: "300px",
+               labelInterpolationFnc: function(value, idx) {
+                  var percentage = Math.round(value / data_3.series.reduce(sum) * 100) + '%';
+                  return labels[idx] + ' (' + percentage + ')';
+               }
+            });
+        
       // 도넛차트
-      new Chartist.Pie('#demo-donut-chart', data_4, {
-         height: "300px",
-         donut: true,
-         donutWidth: 60,
-         donutSolid: true,
-         startAngle: 270,
-         showLabel: true
-
-         
-      });
-
-
-
+            new Chartist.Pie('#demo-donut-chart', data_4, {
+               height: "300px",
+               donut: true,
+               donutWidth: 60,
+               donutSolid: true,
+               startAngle: 270,
+               showLabel: true
+            });
+        
       // area chart
-      options = {
-         height: "270px",
-         showArea: true,
-         showLine: false,
-         showPoint: false,
-         axisX: {
-            showGrid: false
-         },
-         lineSmooth: false,
-      };
-
-      new Chartist.Line('#demo-area-chart', data, options);
-
-
-      // multiple chart
-      var data = {
-         labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-         series: [{
-            name: 'series-real',
-            data: [200, 380, 350, 320, 410, 450, 570, 400, 555, 620, 750, 900],
-         }, {
-            name: 'series-projection',
-            data: [240, 350, 360, 380, 400, 450, 480, 523, 555, 600, 700, 800],
-         }]
-      };
-
-      var options = {
-         fullWidth: true,
-         lineSmooth: false,
-         height: "270px",
-         low: 0,
-         high: 'auto',
-         series: {
-            'series-projection': {
+            options = {
+               height: "270px",
                showArea: true,
+               showLine: false,
                showPoint: false,
-               showLine: false
-            },
-         },
-         axisX: {
-            showGrid: false,
+               axisX: {
+                  showGrid: false
+               },
+               lineSmooth: false,
+            };
+            new Chartist.Line('#demo-area-chart', data, options);
+        
+      // multiple chart
+            var data = {
+               labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+               series: [{
+                  name: 'series-real',
+                  data: [200, 380, 350, 320, 410, 450, 570, 400, 555, 620, 750, 900],
+               }, {
+                  name: 'series-projection',
+                  data: [240, 350, 360, 380, 400, 450, 480, 523, 555, 600, 700, 800],
+               }]
+            };
+        
+            var options = {
+               fullWidth: true,
+               lineSmooth: false,
+               height: "270px",
+               low: 0,
+               high: 'auto',
+               series: {
+                  'series-projection': {
+                     showArea: true,
+                     showPoint: false,
+                     showLine: false
+                  },
+               },
+               axisX: {
+                  showGrid: false,
+            
+               },
+               axisY: {
+                  showGrid: false,
+                  onlyInteger: true,
+                  offset: 0,
+               },
+               chartPadding: {
+                  left: 20,
+                  right: 20
+               }
+            };
+            new Chartist.Line('#multiple-chart', data, options);
+         });
 
-         },
-         axisY: {
-            showGrid: false,
-            onlyInteger: true,
-            offset: 0,
-         },
-         chartPadding: {
-            left: 20,
-            right: 20
-         }
-      };
-
-      new Chartist.Line('#multiple-chart', data, options);
-
-   });
    </script>
 </body>
 

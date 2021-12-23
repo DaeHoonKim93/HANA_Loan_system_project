@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en" class="fullscreen-bg">
 
+
 <head>
    <title>Login | 대출 업무 관리 시스템 </title>
    <meta charset="utf-8">
@@ -8,12 +9,10 @@
    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
    <!-- VENDOR CSS -->
    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
-   <link rel="stylesheet" href="/assets/vendor/font-awesome/css/font-awesome.min.css">
+   <link rel="stylesheet" href="/assets/vendor/font-awesome/css/font-awesome.min.css"> <!--이 줄과 아래 줄이 아이콘 나오게 하는 부분-->
    <link rel="stylesheet" href="/assets/vendor/linearicons/style.css">
    <!-- MAIN CSS -->
    <link rel="stylesheet" href="/assets/css/main.css">
-   <!-- FOR DEMO PURPOSES ONLY. You should remove this in your project -->
-   <link rel="stylesheet" href="/assets/css/demo.css">
    <!-- GOOGLE FONTS -->
    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
    <!-- ICONS -->
@@ -27,43 +26,54 @@
       <div class="vertical-align-wrap">
          <div class="vertical-align-middle">
             <div class="auth-box ">
-               <div class="left">
+               <div class="left"> <!-- 왼쪽 부분-->
                   <div class="content">
                      <div class="header">
-                        <div class="logo text-center"><img src="/assets/img/title7.png" alt="Klorofil Logo"></div>
-                <p></p>
-                <p class="lead"><strong>대출 업무 관리 시스템</strong></p>
-                     </div>
-              <form method="POST" action=".">
-                {% csrf_token %}
-                {% for field in form %}
-                <div class="form-group">
-                  <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                  <input type="{{ field.field.widget.input_type }}" class="form-control" id="{{ field.id_for_label }}"
-                    placeholder="{{ field.label }}" name="{{ field.name }}" />
-                </div>
+                        <div class="logo text-center"><img src="/assets/img/title.png" alt="HANA BANK"></div> <!--'하나 LoanQ Pro' 마크 표시-->
+                                   <p></p>
+                           <p class="lead"><strong>대출 업무 관리 시스템</strong></p>
+                        </div>
 
-                {% if field.errors %}
-                <span style="color: red">{{ field.errors }}</span>
-                {% endif %}
-                {% endfor %}
-                <button type="submit" class="btn btn-primary btn-block"><strong>로그인</strong></button>
-                     </form>
+                           <form method="POST" action=".">
+                               {% csrf_token %}
+                               {% for field in form %}
+                        
+                           <div class="form-group">
+                              <label for="{{ field.id_for_label }}">{{ field.label }}</label> <!-- 직원번호, 비밀번호라고 적혀있는 부분, 입력창 X-->
+                              <input type="{{ field.field.widget.input_type }}" class="form-control" id="{{ field.id_for_label }}"
+                              placeholder="{{ field.label }}" name="{{ field.name }}" /> <!--윗줄부터 두줄 : 직원번호, 비밀번호 입력창-->
+                           </div>
+
+                           {% if field.errors %} <!--에러가 나면 에러 문구 표시하는 부분-->
+                           <span style="color: red">{{ field.errors }}</span>
+                           {% endif %}
+                           {% endfor %}
+
+                           <button type="submit" class="btn btn-primary btn-block"><b>로그인</b></button> <!--클릭하면 입력창에 적은 정보로 로그인 시도-->
+
+                        </form>
+                     </div>
                   </div>
+
+               <div class="right"> <!--오른쪽 부분-->
+                  <div class="overlay"></div> <!--사진에 반투명한 파란창 덮는 부분-->
                </div>
-               <div class="right">
-                  <div class="overlay"></div>
-                  <div class="content text">
-                     {% comment %} <h1 class="heading"><strong>대출 업무 관리 시스템  </strong></h1> {% endcomment %}
-                     {% comment %} <p>     B팀 2조 제작 </p> {% endcomment %}
-                  </div>
-               </div>
-               <div class="clearfix"></div>
+
+               <div class="clearfix"></div> <!--얘도 왜 있니...?-->
+
             </div>
          </div>
+
       </div>
    </div>
    <!-- END WRAPPER -->
+
+   <script src="assets/vendor/jquery/jquery.min.js"></script>
+   <script src="assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+   <script src="assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+   <script src="assets/vendor/jquery.easy-pie-chart/jquery.easypiechart.min.js"></script>
+   <script src="assets/vendor/chartist/js/chartist.min.js"></script>
+   <script src="/assets/scripts/klorofil-common.js"></script>
 </body>
 
 </html>

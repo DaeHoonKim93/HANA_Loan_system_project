@@ -3,44 +3,17 @@ from django.http import HttpResponseRedirect
 
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import FormView, UpdateView, DeleteView
+from django.db import connection
 
-from .models import Worksheet, Process, TodoList
+from .models import Worksheet, TodoList
 from fcuser.models import Fcuser
 from .forms import RegisterForm
-from datetime import datetime
-from django.core.paginator import Paginator
 
-from django.db import connection
 from .decorators import is_login
+from datetime import datetime
 
 
-class WorksheetDelete(DeleteView):
-    model = Worksheet
-    template_name = 'work_delete.html'
-    success_url = '/worksheet'
-
-
-class WorksheetUpdate(UpdateView):
-    model = Worksheet
-    fields = [
-        'customer_id', 'customer_name', 'phone_number', 'loan_product',
-        'loan_amount', 'loan_start_date', 'description'
-    ]
-    template_name = 'work_update.html'
-    context_object_name = 'worksheet'  #1
-    success_url = '/worksheet'  #3
-
-    # #get object
-    # def get_object(self):
-    #     review = get_object_or_404(Review, pk=self.kwargs['pk']) #4
-
-    #     return review
-
-
-def tables(request):
-    return render(request, 'tables.html')
-
-
+# Home 화면
 def index(request):
     if request.session.get('user') == None:
         return redirect('fcuser/login/')
@@ -50,13 +23,14 @@ def index(request):
         emp_name = user.get().emp_name  #로그인된 user
         request.session['emp_name'] = emp_name
 
+        #Mysql 연동
         cursor = connection.cursor()
-        strSql = "select A.customer_id, A.customer_name, A.loan_product, A.loan_amount, A.loan_start_date  , C.loan_process_name, A.emp_name from WorkSheet as A Left OUTER join (select A.loan_product_name, B.loan_process_level, B.loan_process_name from loan_product2 as A inner join loan_process as B on a.id = b.loan_product_id) as C on a.loan_product = C.loan_product_name WHERE A.current_process_id = C.loan_process_level AND A.loan_start_date - curdate() < 5 AND A.loan_start_date - curdate() > 0"
+        # 대출 신규 예정일 5일 이내 업무 추출하는 sql문
+        strSql = "select A.customer_id, A.customer_name, A.loan_product, A.loan_amount, A.loan_start_date  , C.loan_process_name, A.emp_name from WorkSheet as A Left OUTER join (select A.loan_product_name, B.loan_process_level, B.loan_process_name from loan_product as A inner join loan_process as B on a.id = b.loan_product_id) as C on a.loan_product = C.loan_product_name WHERE A.current_process_id = C.loan_process_level AND A.loan_start_date - curdate() <= 6 AND A.loan_start_date - curdate() >= 0 order by A.loan_start_date"
         result = cursor.execute(strSql)
         works = cursor.fetchall()
         connection.commit()
         within_5days_work = []
-        # print("works!!", works)
         for data in works:
             row = {
                 'emp_name': data[6],
@@ -69,26 +43,39 @@ def index(request):
             }
             within_5days_work.append(row)
 
+        strsql_2 = "select A.customer_id, A.loan_product, A.loan_amount, A.emp_name from WorkSheet as A Left OUTER join (select A.loan_product_name, B.loan_process_level, B.loan_process_name from loan_product as A inner join loan_process as B on a.id = b.loan_product_id) as C on a.loan_product = C.loan_product_name WHERE A.current_process_id = C.loan_process_level and loan_process_name != '대출 실행완료'"
+        result = cursor.execute(strsql_2)
+        result_lst = cursor.fetchall()
+
+        today = datetime.today().strftime("%Y년 %m월 %d일")
+        connection.commit()
+        work_count = 0
+        # 로그인 된 user의 진행중인 업무 리스트의 갯수를 work_count에 저장
+        for data in result_lst:
+            if data[3] == emp_name:
+                work_count += 1
+
         TodoList_list = TodoList.objects.all()
 
         return render(
             request, 'home.html', {
                 'fcusers': emp_name,
                 'within_5days_work': within_5days_work,
-                'TodoList_list': TodoList_list
+                'TodoList_list': TodoList_list,
+                'work_count': work_count,
+                'today': today
             })
 
 
+#로그인이 된 경우에만 접근할 수 있도록 @decorator 활용
 @is_login
 def VirtualBankSystem(request):
 
     Worksheet_list = Worksheet.objects.all()
-
+    # 업무 승인되었을 경우 진행 단계를 1단계 올림
     if request.method == 'POST':
         lst_id = request.POST.getlist('id')
-
         for i in lst_id:
-
             next_process_level = Worksheet.objects.get(
                 id=int(i)).current_process_id + 1
 
@@ -105,13 +92,12 @@ def VirtualBankSystem(request):
 def WorksheetList(request):
 
     cursor = connection.cursor()
-    # strSql = "select A.* , B.process_step from WorkSheet as A Left OUTER join Process as B on a.loan_product = b.loan_product WHERE A.current_process_id = B.process_index"
-    strSql = "select A.* , C.loan_process_name from WorkSheet as A Left OUTER join (select A.loan_product_name, B.loan_process_level, B.loan_process_name from loan_product2 as A inner join loan_process as B on a.id = b.loan_product_id) as C on a.loan_product = C.loan_product_name WHERE A.current_process_id = C.loan_process_level"
+    strSql = "select A.* , C.loan_process_name from WorkSheet as A Left OUTER join (select A.loan_product_name, B.loan_process_level, B.loan_process_name from loan_product as A inner join loan_process as B on a.id = b.loan_product_id) as C on a.loan_product = C.loan_product_name WHERE A.current_process_id = C.loan_process_level"
     result = cursor.execute(strSql)
     works = cursor.fetchall()
     connection.commit()
-    datas = []
-    # print("workszzz", works)
+    progress_datas = []
+    complete_datas = []
     for data in works:
         if data[5] == 'HF 주택신용보증 전세대출':
             prog = data[11] / 5 * 100
@@ -133,50 +119,41 @@ def WorksheetList(request):
             'process_step': data[12],
             'progress': prog
         }
-        datas.append(row)
+        if data[11] >= 6:
+            complete_datas.append(row)
+        elif data[5] == 'HF 주택신용보증 전세대출' and data[11] == 5:
+            complete_datas.append(row)
+        else:
+            progress_datas.append(row)
 
-    Worksheet_list = Worksheet.objects.all()
-    # print(type(Worksheet_list))
-    var_id = 3
-    Process_data = Process.objects.filter(id=var_id)
-    # for work in Worksheet_list:
-    #     # print('zz', type(work))
-    #     break
-    # a = Process_data[0]
-    # print(a.process_step)
-    # b = a.process_step
+    # Worksheet_list = Worksheet.objects.all()
 
-    page = request.GET.get('page', '1')  # 페이지
+    # page = request.GET.get('page', '1')  # 페이지
 
     # 조회
     # work_list = Worksheet.objects.order_by('-id')
     # print("work_list!!", work_list)
     # print("datas", datas)
     # 페이징처리
-    paginator = Paginator(datas, 5)  # 페이지당 10개씩 보여주기
-    page_obj = paginator.get_page(page)
+    # paginator = Paginator(datas, 5)  # 페이지당 10개씩 보여주기
+    # page_obj = paginator.get_page(page)
 
     return render(request, 'Worksheet.html', {
-        'datas': datas,
-        'work_list': page_obj
+        'progress_datas': progress_datas,
+        'complete_datas': complete_datas
     })
-
-    # print(Worksheet_list)
-    # emp_name = user.get().emp_name  #로그인된 user
-    # request.session['emp_name'] = emp_name
-    # print("HERE!!!")
 
 
 @is_login
 def Total_worksheetList(request):
 
     cursor = connection.cursor()
-    # strSql = "select A.* , B.process_step from WorkSheet as A Left OUTER join Process as B on a.loan_product = b.loan_product WHERE A.current_process_id = B.process_index"
-    strSql = "select A.* , C.loan_process_name from WorkSheet as A Left OUTER join (select A.loan_product_name, B.loan_process_level, B.loan_process_name from loan_product2 as A inner join loan_process as B on a.id = b.loan_product_id) as C on a.loan_product = C.loan_product_name WHERE A.current_process_id = C.loan_process_level"
+    strSql = "select A.* , C.loan_process_name from WorkSheet as A Left OUTER join (select A.loan_product_name, B.loan_process_level, B.loan_process_name from loan_product as A inner join loan_process as B on a.id = b.loan_product_id) as C on a.loan_product = C.loan_product_name WHERE A.current_process_id = C.loan_process_level"
     result = cursor.execute(strSql)
     works = cursor.fetchall()
     connection.commit()
-    datas = []
+    progress_datas = []
+    complete_datas = []
     # print("works!!!", works)
     for data in works:
         if data[5] == 'HF 주택신용보증 전세대출':
@@ -199,28 +176,17 @@ def Total_worksheetList(request):
             'process_step': data[12],
             'progress': prog
         }
-        datas.append(row)
-    # print(datas)
+        if data[11] >= 6:
+            complete_datas.append(row)
+        elif data[5] == 'HF 주택신용보증 전세대출' and data[11] == 5:
+            complete_datas.append(row)
+        else:
+            progress_datas.append(row)
 
-    # connection.close()
-
-    # user = Worksheet.objects.filter(
-    #     Q(emp_id=request.session.get('user')))  # where절
-
-    # page = request.GET.get('page', '1')  # 페이지
-
-    # # 조회
-    # work_list = Worksheet.objects.order_by('-id')
-    # print("dd", type(work_list))
-    # print("dddd", type(datas))
-
-    # # print("work_list!!", work_list)
-    # # print("datas", datas)
-    # # 페이징처리
-    # paginator = Paginator(datas, 10)  # 페이지당 10개씩 보여주기
-
-    # page_obj = paginator.get_page(page)
-    return render(request, 'Total_Worksheet.html', {'datas': datas})
+    return render(request, 'Total_Worksheet.html', {
+        'progress_datas': progress_datas,
+        'complete_datas': complete_datas
+    })
 
 
 class WorksheetCreate(FormView):
@@ -252,9 +218,24 @@ class Workdetail(DetailView):
     context_object_name = 'Workdetail'
 
 
+class WorksheetDelete(DeleteView):
+    model = Worksheet
+    template_name = 'work_delete.html'
+    success_url = '/worksheet'
+
+
+class WorksheetUpdate(UpdateView):
+    model = Worksheet
+    fields = [
+        'customer_id', 'customer_name', 'phone_number', 'loan_product',
+        'loan_amount', 'loan_start_date', 'description'
+    ]
+    template_name = 'work_update.html'
+    context_object_name = 'worksheet'
+    success_url = '/worksheet'
+
+
 def charts(request):
-    #sql 리스트롤
-    #쿼리를짜서 그룹바이 emp_name select count(*)
 
     # 1. 직원별 대출 신규 건수를 확인하는 코드
     cursor = connection.cursor()
@@ -268,16 +249,13 @@ def charts(request):
     for i in range(len(emp_count_lst)):
         data_lst.append(emp_count_lst[i][1])
         name_lst.append(emp_count_lst[i][0])
-    # print('data_list',data_lst)
-    # print('name_list',name_lst)
 
-# 2. 대출 총 건수의 합을 구하는 코드
+    # 2. 대출 총 건수의 합을 구하는 코드
     strSql_2 = "select count(*) from worksheet;"
     result_2 = cursor.execute(strSql_2)
     total_count = cursor.fetchall()
     connection.commit()
     data_lst.append(total_count[0][0])
-    # print(total_count[0][0])
 
     # 3. 직원별 대출 금액 합을 구하는 코드
     strSql_3 = "select emp_name, round((sum(loan_amount)/100000000),2) from worksheet group by emp_name;"
@@ -287,16 +265,7 @@ def charts(request):
     individual_amount_lst = []
     for i in range(len(amount_lst)):
         individual_amount_lst.append(int(amount_lst[i][1]))
-    #     print('bbbbbb', individual_amount_lst)
-    # print('aaaaaaa', individual_amount_lst)
 
-# 4. 대출 총 금액의 합을 구하는 코드
-# strSql_4 = "select sum(loan_amount) from worksheet;"
-# result_4 = cursor.execute(strSql_4)
-# total_amount = cursor.fetchall()
-# connection.commit()
-# individual_amount_lst.append(float(individual_amount_lst[0][0]))
-# print('asdasdasdasd', total_amount[0][0])
 
 # 5. 상품별 대출 신규 건수를 확인하는 코드
     strSql_5 = "select loan_product, count(*) from worksheet group by loan_product;"
@@ -328,9 +297,6 @@ def charts(request):
         })
 
 
-#윤주#########################################################################################
-
-
 def TodoList_list(request):
     all_todo_items = TodoList.objects.all()
     return render(request, 'todo_list.html',
@@ -348,3 +314,7 @@ def deleteTodoView(request, i):
     y = TodoList.objects.get(id=i)
     y.delete()
     return HttpResponseRedirect('/todo_list/')
+
+
+def Howto_Use(request):
+    return render(request, 'howto_use.html')

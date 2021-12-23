@@ -30,7 +30,7 @@
 	   <!-- NAVBAR -->
 	   <nav class="navbar navbar-default navbar-fixed-top">
 		  <div class="brand">
-			 <a href={% url 'home' %}><img src="/assets/img/title7.png" alt="Klorofil Logo" class="img-responsive logo"></a>
+			 <a href={% url 'home' %}><img src="/assets/img/title.png" alt="HANA BANK" class="img-responsive logo"></a>
 		  </div>
 		  <div class="container-fluid">
 			 <div class="navbar-btn">
@@ -99,7 +99,7 @@
 				   <li><a href="{% url 'worksheetcreate'%}" class=""><i class="lnr lnr-pencil"></i> <span>신규 대출 등록</span></a></li>
 						 <li><a href="{% url 'worksheet'%}" class=""><i class="lnr lnr-user"></i> <span>나의 신규 리스트</span></a></li>
 				   <li><a href="{% url 'totalworksheet'%}" class="active"><i class="lnr lnr-inbox"></i> <span>지점 전체 신규 리스트</span></a></li>
-				   <li><a href="{% url 'charts'%}" class=""><i class="lnr lnr-chart-bars"></i> <span>실적현황</span></a></li>
+				   <li><a href="{% url 'charts'%}" class=""><i class="lnr lnr-chart-bars"></i> <span>업무 현황 (차트)</span></a></li>
 				   <li><a href="{% url 'TodoList'%}" class=""><i class="lnr lnr-list"></i> <span>오늘의 할일</span></a></li>
 				  <li><a href="{% url 'virtualbanksystem'%}" class=""><i class="lnr lnr-cog"></i> <span>가상계정단말</span></a></li>
                   
@@ -127,93 +127,181 @@
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
 				<div class="container-fluid">
-					<h3 class="page-title">지점 전체 신규 리스트</h3>
-							<!-- BORDERED TABLE -->
 
+					<div class="row mt-5">
+						<div class="col-12 text-center">
+						  <h1>지점 전체 신규 리스트</h1>
+						  <p>&nbsp;</p>
+						</div>
+					 </div>
 
         
 <div class="row">
     <div class="col-md-12">
         <div class = "panel">
-            <div class = "panel-heading">
-                <h3 class="panel-title">2021년 11월</h3>
-            </div>
-        <div class="panel-body">
-            <table id="datatablesSimple" class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">담당자</th>
-                        <th scope="col">고객번호</th>
-                        <th scope="col">고객명</th>
-                        <th scope="col">신규예정일</th>
-                        <th scope="col">대출상품</th>
-                        <th scope="col">대출금액</th>
-                        <th scope="col">진행중 단계</th>
-                        <th scope="col">상환조건여부</th>
-                        <th scope="col">등록날짜</th>
-                    </tr>
-            </thead>
-            <tbody class="text-dark">
-				{% for work in datas %}
-					<tr>
-						<th>{{ work.id }}</th>
-						<th>{{ work.emp_name }}</th>
-						<th>{{ work.customer_id }} </th>
-						<th><a href="/worksheet/detail/{{ work.id }}">{{ work.customer_name }}</th>
-						<th>{{ work.loan_start_date|date:'Y-m-d'}}</th>
-						<th> {{work.loan_product}}</th>             
-						<th> {{ work.loan_amount|intcomma}}원 </th>
-						{% if work.loan_product == 'HF 주택신용보증 전세대출' %} 
-							<th>  <h4> <span class="label label-primary">{{work.process_step}}</span> </h4> 
-								<div class="progress progress-s">
-									<div class="progress-bar progress-bar-success" role="progressbar"  style="width: {{work.progress}}%">
+            <div class="panel-body">
+				<div class="col-12 text-center">
+					<h3>진행중인 내역</h3>
+				</div>
+				<table id="datatablesSimple" class="table table-bordered">
+					<thead>
+						<tr>
+							<th scope="col">#</th>
+							<th scope="col">담당자</th>
+							<th scope="col">고객번호</th>
+							<th scope="col">고객명</th>
+							<th scope="col">신규예정일</th>
+							<th scope="col">대출상품</th>
+							<th scope="col">대출금액</th>
+							<th scope="col">진행중 단계</th>
+							<th scope="col">상환조건여부</th>
+							<th scope="col">등록날짜</th>
+						</tr>
+				</thead>
+				<tbody class="text-dark">
+					{% for work in progress_datas %}
+						<tr>
+							<th>{{ work.id }}</th>
+							<th>{{ work.emp_name }}</th>
+							<th>{{ work.customer_id }} </th>
+							<th><a href="/worksheet/detail/{{ work.id }}">{{ work.customer_name }}</th>
+							<th>{{ work.loan_start_date|date:'Y-m-d'}}</th>
+							<th> {{work.loan_product}}</th>             
+							<th> {{ work.loan_amount|intcomma}}원 </th>
+							{% if work.loan_product == 'HF 주택신용보증 전세대출' %} 
+								<th>  <h4> <span class="label label-primary">{{work.process_step}}</span> </h4> 
+									<div class="progress progress-s">
+										<div class="progress-bar progress-bar-success" role="progressbar"  style="width: {{work.progress}}%">
+										</div>
 									</div>
-								</div>
-							</th>
+								</th>
 
-						{% elif work.loan_product == 'SGI 우량주택 전세대출' %} 
-							<th>  <h4> <span class="label label-success">{{work.process_step}}</span> </h4> 
-								<div class="progress progress-s">
-									<div class="progress-bar progress-bar-success" role="progressbar"  style="width: {{work.progress}}%">
+							{% elif work.loan_product == 'SGI 우량주택 전세대출' %} 
+								<th>  <h4> <span class="label label-success">{{work.process_step}}</span> </h4> 
+									<div class="progress progress-s">
+										<div class="progress-bar progress-bar-success" role="progressbar"  style="width: {{work.progress}}%">
+										</div>
 									</div>
-								</div>
-							</th>
-						{% else %}
-							<th>  <h4> <span class="label label-warning">{{work.process_step}}</span> </h4> 
-								<div class="progress progress-s">
-									<div class="progress-bar progress-bar-success" role="progressbar"  style="width: {{work.progress}}%">
+								</th>
+							{% else %}
+								<th>  <h4> <span class="label label-warning">{{work.process_step}}</span> </h4> 
+									<div class="progress progress-s">
+										<div class="progress-bar progress-bar-success" role="progressbar"  style="width: {{work.progress}}%">
+										</div>
 									</div>
-								</div>
-							</th>
-						{% endif %}
+								</th>
+							{% endif %}
 
-						{% if work.loan_condition == 'Y' %} 
+							{% if work.loan_condition == 'Y' %} 
+								<th> 
+									<label class="fancy-checkbox"> 
+										<input type="checkbox">
+										{{work.loan_condition}} <span></span>
+									
+								</label>
+								</th>
+							{% else %}
+								<th> {{work.loan_condition}} 	</th>
+							{% endif %}
+								<th>{{ work.register_date|date:'Y-m-d' }}</th>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+			</div>
+        </div>
+        
+		<div class = "panel">
+			<div class="panel-body">
+				<div class="col-12 text-center">
+					<h3>실행완료 내역</h3>
+					<p>&nbsp;</p>
+				</div>
+				<table id="datatablesSimple" class="table table-bordered">	
+					<thead>
+						<tr>
+							<th scope="col">#</th> 
+							<th scope="col">담당자</th>
+							<th scope="col">고객번호</th>
+							<th scope="col">고객명</th>
+							<th scope="col">신규예정일</th>
+							<th scope="col">대출상품</th>
+							<th scope="col">대출금액</th>
+							<th scope="col">진행중 단계</th>
+							<th scope="col">상환조건여부</th>    
+							<th scope="col">등록날짜</th>
+						</tr>
+					</thead>
+				<tbody class="text-dark">
+					{% for work in complete_datas %}
+						<tr> 
+							<th>{{ work.id }}</th>
+							<th>{{ work.emp_name }}</th>
+							<th>{{ work.customer_id }} </th>
+							<th><a href="/worksheet/detail/{{ work.id }}">{{ work.customer_name }}</th>
+							<th>{{ work.loan_start_date|date:'Y-m-d'}}</th>
+							<th> {{work.loan_product}}</th>             
+							<th> {{ work.loan_amount|intcomma}}원 </th>
+							{% if work.loan_product == 'HF 주택신용보증 전세대출' %} 
+                 				<th>  <h4> <span class="label label-primary">{{work.process_step}}</span> </h4> 
+									<div class="progress progress-s">
+										<div class="progress-bar progress-bar-success" role="progressbar"  style="width: {{work.progress}}%">
+										</div>
+									</div>
+								</th>
+
+							{% elif work.loan_product == 'SGI 우량주택 전세대출' %} 
+                  				<th>  <h4> <span class="label label-success">{{work.process_step}}</span> </h4> 
+									<div class="progress progress-s">
+										<div class="progress-bar progress-bar-success" role="progressbar"  style="width: {{work.progress}}%">
+										</div>
+									</div>
+								</th>
+                  			{% else %}
+                  				<th>  <h4> <span class="label label-warning">{{work.process_step}}</span> </h4> 
+									<div class="progress progress-s">
+										<div class="progress-bar progress-bar-success" role="progressbar"  style="width: {{work.progress}}%">
+										</div>
+									</div>
+								</th>
+                  			{% endif %}
+
+							{% if work.loan_condition == 'Y' %} 
 							<th> 
 								<label class="fancy-checkbox"> 
 									<input type="checkbox">
-									{{work.loan_condition}} <span></span>
+									{{work.loan_condition}}  &nbsp;&nbsp; <span></span>
 								
 							</label>
 							</th>
-						{% else %}
+							{% else %}
 							<th> {{work.loan_condition}} 	</th>
-						{% endif %}
-							<th>{{ work.register_date|date:'Y-m-d' }}</th>
-					</tr>
-				{% endfor %}
-            </tbody>
-          </table>
-<!-- 페이징 -->
-          </div>
-        </div>
-        
+							{% endif %}
+							<th>{{ work.register_date|date:'Y-m-d'}}</th>	
+						</tr>
+					{% endfor %}
+				</tbody>
+				</table>
+			</div>
+
+
+			</div>
+			
+		</div>
+
+
+
     </div>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
   <script src="/assets/js/scripts.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
   <script src="/assets/js/datatables-simple-demo.js"></script>
+
+  <script src="/assets/vendor/jquery/jquery.min.js"></script>
+  <script src="/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+  <script src="/assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+  <script src="/assets/scripts/klorofil-common.js"></script>
 </body>  
 
  

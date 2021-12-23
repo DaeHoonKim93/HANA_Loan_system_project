@@ -16,13 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.urls.conf import include
-from board.views import index, charts, WorksheetList, WorksheetCreate, Total_worksheetList, VirtualBankSystem, Workdetail, tables, TodoList_list, addTodoView, deleteTodoView, WorksheetUpdate, WorksheetDelete
+from board.views import index, charts, WorksheetList, WorksheetCreate, Total_worksheetList, VirtualBankSystem, Workdetail, TodoList_list, addTodoView, deleteTodoView, WorksheetUpdate, WorksheetDelete, Howto_Use
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('fcuser/', include('fcuser.urls')),
     path('', index, name='home'),
-    path('tables', tables, name='tables'),
     path('charts/', charts, name='charts'),
     path('worksheet/', WorksheetList, name='worksheet'),
     path('totalworksheet/', Total_worksheetList, name='totalworksheet'),
@@ -39,4 +38,5 @@ urlpatterns = [
          name='update'),
     path('worksheet/delete/<int:pk>', WorksheetDelete.as_view(),
          name='delete'),
+    path('howto_use/', Howto_Use, name='howto_use')
 ]
